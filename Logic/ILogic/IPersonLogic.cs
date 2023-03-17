@@ -1,5 +1,4 @@
 ﻿using Entities.Entities;
-using Entities.SearchFilters;
 using System;
 using System.Collections.Generic;
 using System.Linq;

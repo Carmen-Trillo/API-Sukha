@@ -1,9 +1,6 @@
 ﻿using API_Sukha.IServices;
-using API_Sukha.Services;
 using Entities.Entities;
-using Entities.SearchFilters;
 using Logic.ILogic;
-using Resource.RequestModels;
 
 namespace API_Sukha.Services
 {

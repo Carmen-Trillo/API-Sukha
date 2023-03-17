@@ -1,8 +1,11 @@
-using API_Sukha.IServices;
-using API_Sukha.Services;
 using Data;
 using Logic.ILogic;
 using Logic.Logic;
+using Microsoft.EntityFrameworkCore;
+using API_Sukha.IServices;
+using API_Sukha.Services;
+using Microsoft.EntityFrameworkCore.SqlServer;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,7 +35,8 @@ builder.Services.AddScoped<ICustomerLogic, CustomerLogic>();
 builder.Services.AddScoped<ICustomerTypeLogic, CustomerTypeLogic>();
 
 builder.Services.AddDbContext<ServiceContext>(
-        options => options.UseSqlServer("name=ConnectionStrings:ServiceContext"));
+        options => options.UseSqlServer("name=ConnectionStrings:ServiceContext",
+        b => b.MigrationsAssembly("API-Sukha")));
 
 var app = builder.Build();
 

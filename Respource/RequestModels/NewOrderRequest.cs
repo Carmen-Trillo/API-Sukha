@@ -30,7 +30,6 @@ namespace Resource.RequestModels
         public bool Pagado { get; set; }
         public bool Entregado { get; set; }
         public bool IsActive { get; set; }
-
         public OrderItem ToOrderItem()
         {
             var orderItem = new OrderItem();
