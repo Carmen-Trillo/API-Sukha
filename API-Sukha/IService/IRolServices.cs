@@ -4,9 +4,9 @@ namespace API_Sukha.IServices
 {
     public interface IRolServices
     {
-        int InsertRol(RolItem rolItem);
-        void UpdateRol(RolItem rolItem);
-        void DeleteRol(int id);
-        List<RolItem> GetAllRoles();
+        Task<int> InsertRolAsync(RolItem rolItem);
+        Task UpdateRolAsync(RolItem rolItem);
+        Task DeleteRolAsync(int id);
+        Task<List<RolItem>> GetAllRolesAsync();
     }
 }

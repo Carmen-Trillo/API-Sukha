@@ -14,50 +14,50 @@ namespace API_Sukha.Services
             _orderLogic = orderLogic;
         }
 
-        public void DeleteOrder(int id)
+        public async Task DeleteOrderAsync(int id)
         {
-            _orderLogic.DeleteOrder(id);
+            await _orderLogic.DeleteOrderAsync(id);
         }
 
-        public List<OrderItem> GetAllOrders()
+        public async Task<List<OrderItem>> GetAllOrdersAsync()
         {
-            return _orderLogic.GetAllOrders();
+            return await _orderLogic.GetAllOrdersAsync();
         }
 
-        public List<OrderItem> GetOrdersByCriteria(OrderFilter orderFilter)
+        public async Task<List<OrderItem>> GetOrdersByCriteriaAsync(OrderFilter orderFilter)
         {
-            return _orderLogic.GetOrdersByCriteria(orderFilter);
+            return await _orderLogic.GetOrdersByCriteriaAsync(orderFilter);
         }
 
-        public List<OrderItem> GetOrdersByCustomer(int idCustomer)
+        public async Task <List<OrderItem>> GetOrdersByCustomerAsync(int idCustomer)
         {
-            return _orderLogic.GetOrdersByCustomer(idCustomer);
+            return await _orderLogic.GetOrdersByCustomerAsync(idCustomer);
         }
 
-        public List<OrderItem> GetOrdersByProduct(int idProduct)
+        public async Task<List<OrderItem>> GetOrdersByProductAsync(int idProduct)
         {
-            return _orderLogic.GetOrdersByProduct(idProduct);
+            return await _orderLogic.GetOrdersByProductAsync(idProduct);
         }
-        public List<OrderItem> GetOrdersByPagados(bool pagado)
+        public async Task<List<OrderItem>> GetOrdersByPagadosAsync(bool pagado)
         {
-            return _orderLogic.GetOrdersByPagados(pagado);
+            return await _orderLogic.GetOrdersByPagadosAsync(pagado);
         }
-        public List<OrderItem> GetOrdersByEntregados(bool entregado)
+        public async Task<List<OrderItem>> GetOrdersByEntregadosAsync(bool entregado)
         {
-            return _orderLogic.GetOrdersByEntregados(entregado);
+            return await _orderLogic.GetOrdersByEntregadosAsync(entregado);
         }
 
 
-        public int InsertOrder(NewOrderRequest newOrderRequest)
+        public async Task<int> InsertOrderAsync(NewOrderRequest newOrderRequest)
         {
 
             var newOrderItem = newOrderRequest.ToOrderItem();
-            return _orderLogic.InsertOrder(newOrderItem);
+            return await _orderLogic.InsertOrderAsync(newOrderItem);
         }
 
-        public void UpdateOrder(OrderItem orderItem)
+        public async Task UpdateOrderAsync(OrderItem orderItem)
         {
-            _orderLogic.UpdateOrder(orderItem);
+            await _orderLogic.UpdateOrderAsync(orderItem);
         }
     }
 }

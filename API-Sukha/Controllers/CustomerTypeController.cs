@@ -9,68 +9,76 @@ namespace API_Sukha.Controllers
     [Route("[controller]/[action]")]
     public class CustomerTypeController : ControllerBase
     {
-        private ISecurityServices _securityServices;
+        private readonly ILogger<CustomerTypeController> _logger;
+        private readonly ICustomerTypeServices _customerTypeServices;
+        public CustomerTypeController(ILogger<CustomerTypeController> logger, ICustomerTypeServices customerTypeServices)
+        {
+            _logger = logger;
+            _customerTypeServices = customerTypeServices;
+        }
+
+        /*private ISecurityServices _securityServices;
         private ICustomerTypeServices _customerTypeServices;
         public CustomerTypeController(ISecurityServices securityServices, ICustomerTypeServices customerTypeServices)
         {
             _securityServices = securityServices;
             _customerTypeServices = customerTypeServices;
-        }
+        }*/
 
         [HttpPost(Name = "InsertarTipoCliente")]
-        public int Post([FromHeader] string userUsuario, [FromHeader] string userPassword, [FromBody] CustomerTypeItem customerTypeItem)
-        {
-            var validCredentials = _securityServices.ValidateUserCredentials(userUsuario, userPassword, 1);
+        public async Task<int> PostAsync([FromBody] CustomerTypeItem customerTypeItem)
+        {/*[FromHeader] string userUsuario, [FromHeader] string userPassword, */
+            /*var validCredentials = _securityServices.ValidateUserCredentials(userUsuario, userPassword, 1);
             if (validCredentials == true)
-            {
-                return _customerTypeServices.InsertCustomerType(customerTypeItem);
-            }
+            {*/
+                return await _customerTypeServices.InsertCustomerTypeAsync(customerTypeItem);
+            /*}
             else
             {
                 throw new InvalidCredentialException();
-            }
+            }*/
         }
 
         [HttpGet(Name = "VerTipoCliente")]
-        public List<CustomerTypeItem> GetAllCustomerTypes([FromHeader] string userUsuario, [FromHeader] string userPassword)
-        {
-            var validCredentials = _securityServices.ValidateUserCredentials(userUsuario, userPassword, 1);
+        public async Task<List<CustomerTypeItem>> GetAllCustomerTypesAsync()
+        {/*[FromHeader] string userUsuario, [FromHeader] string userPassword*/
+            /*var validCredentials = _securityServices.ValidateUserCredentials(userUsuario, userPassword, 1);
             if (validCredentials == true)
-            {
-                return _customerTypeServices.GetAllCustomerTypes();
-            }
+            {*/
+                return await _customerTypeServices.GetAllCustomerTypesAsync();
+            /*}
             else
             {
                 throw new InvalidCredentialException();
-            }
+            }*/
         }
 
         [HttpPatch(Name = "ModificarTipoCliente")]
-        public void Patch([FromHeader] string userUsuario, [FromHeader] string userPassword, [FromBody] CustomerTypeItem customerTypeItem)
-        {
-            var validCredentials = _securityServices.ValidateUserCredentials(userUsuario, userPassword, 1);
+        public async Task PatchAsync([FromBody] CustomerTypeItem customerTypeItem)
+        {/*[FromHeader] string userUsuario, [FromHeader] string userPassword, */
+            /*var validCredentials = _securityServices.ValidateUserCredentials(userUsuario, userPassword, 1);
             if (validCredentials == true)
-            {
-                _customerTypeServices.UpdateCustomerType(customerTypeItem);
-            }
+            {*/
+                await _customerTypeServices.UpdateCustomerTypeAsync(customerTypeItem);
+            /*}
             else
             {
                 throw new InvalidCredentialException();
-            }
+            }*/
         }
 
         [HttpDelete(Name = "EliminarTipoCliente")]
-        public void Delete([FromHeader] string userUsuario, [FromHeader] string userPassword, [FromQuery] int id)
-        {
-            var validCredentials = _securityServices.ValidateUserCredentials(userUsuario, userPassword, 1);
+        public async Task DeleteAsync([FromQuery] int id)
+        {/*[FromHeader] string userUsuario, [FromHeader] string userPassword, */
+            /*var validCredentials = _securityServices.ValidateUserCredentials(userUsuario, userPassword, 1);
             if (validCredentials == true)
-            {
-                _customerTypeServices.DeleteCustomerType(id);
-            }
+            {*/
+                await _customerTypeServices.DeleteCustomerTypeAsync(id);
+            /*}
             else
             {
                 throw new InvalidCredentialException();
-            }
+            }*/
         }
     }
 }

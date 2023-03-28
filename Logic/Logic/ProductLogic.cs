@@ -2,6 +2,12 @@
 using Entities.Entities;
 using Entities.SearchFilters;
 using Logic.ILogic;
+using Microsoft.EntityFrameworkCore;
+using Resource.RequestModels;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Logic.Logic
 {
@@ -13,48 +19,45 @@ namespace Logic.Logic
             _serviceContext = serviceContext;
         }
 
-        public int InsertProduct(ProductItem productItem)
+        public async Task<int> InsertProduct(ProductItem productItem)
         {
-            _serviceContext.Products.Add(productItem);
-            _serviceContext.SaveChanges();
+            await _serviceContext.Products.AddAsync(productItem);
+            await _serviceContext.SaveChangesAsync();
             return productItem.Id;
         }
 
-        public void UpdateProduct(ProductItem productItem)
+        public async Task UpdateProduct(ProductItem productItem)
         {
             _serviceContext.Products.Update(productItem);
-
-            _serviceContext.SaveChanges();
+            await _serviceContext.SaveChangesAsync();
         }
 
-        public void DeleteProduct(int id)
+        public async Task DeleteProduct(int id)
         {
-            var productToDelete = _serviceContext.Set<ProductItem>()
-                 .Where(u => u.Id == id).First();
+            var productToDelete = await _serviceContext.Set<ProductItem>()
+                .Where(u => u.Id == id).FirstAsync();
 
             productToDelete.IsActive = false;
 
-            _serviceContext.SaveChanges();
-
+            await _serviceContext.SaveChangesAsync();
         }
 
-        public void DeleteProductMarca(string marca)
+        public async Task DeleteProductMarca(string brand)
         {
-            var productMarcaToDelete = _serviceContext.Set<ProductItem>()
-                 .Where(u => u.Marca == marca).First();
+            var productMarcaToDelete = await _serviceContext.Set<ProductItem>()
+                .Where(u => u.Brand == brand).FirstAsync();
 
             productMarcaToDelete.IsActive = false;
 
-            _serviceContext.SaveChanges();
-
+            await _serviceContext.SaveChangesAsync();
         }
 
-        public List<ProductItem> GetAllProducts()
+        public async Task<List<ProductItem>> GetAllProducts()
         {
-            return _serviceContext.Set<ProductItem>().ToList();
+            return await _serviceContext.Set<ProductItem>().ToListAsync();
         }
 
-        public List<ProductItem> GetProductsByCriteria(ProductFilter productFilter)
+        public async Task<List<ProductItem>> GetProductsByCriteria(ProductFilter productFilter)
         {
             var resultList = _serviceContext.Set<ProductItem>()
                                         .Where(u => u.IsActive == true);
@@ -70,28 +73,37 @@ namespace Logic.Logic
             {
                 resultList = resultList.Where(u => u.InsertDate < productFilter.InsertDateTo);
             }
-            if (productFilter.PrecioDesde != null)
+            if (productFilter.PriceFrom != null)
             {
-                resultList = resultList.Where(u => u.Precio > productFilter.PrecioDesde);
+                resultList = resultList.Where(u => u.Price > productFilter.PriceFrom);
             }
 
-            if (productFilter.PrecioHasta != null)
+            if (productFilter.PriceTo != null)
             {
-                resultList = resultList.Where(u => u.Precio < productFilter.PrecioHasta);
+                resultList = resultList.Where(u => u.Price < productFilter.PriceTo);
             }
 
-            return resultList.ToList();
+            return await resultList.ToListAsync();
         }
 
-        public List<ProductItem> GetProductsByMarca(string marca)
+        public async Task<List<ProductItem>> GetProductsByMarca(string brand)
         {
-            var resultList = _serviceContext.Set<ProductItem>()
-                        .Where(p => p.Marca == marca);
-            return resultList.ToList();
+            var resultList = await _serviceContext.Set<ProductItem>()
+                        .Where(p => p.Brand == brand).ToListAsync();
+            return resultList;
         }
 
+        public async Task<ProductItem> GetProductById(int id)
+        {
+            return await _serviceContext.Set<ProductItem>()
+                    .Where(u => u.Id == id).FirstOrDefaultAsync();
+        }
 
-
+        public async Task<List<ProductItem>> GetProductsByCategory(string category)
+        {
+            var resultList = await _serviceContext.Set<ProductItem>()
+                        .Where(p => p.Category == category).ToListAsync();
+            return resultList;
+        }
     }
 }
-

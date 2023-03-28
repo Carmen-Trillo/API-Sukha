@@ -11,7 +11,7 @@ namespace Resource.RequestModels
     {
         public int IdPerson { get; set; }
         public int IdRol { get; set; }
-        public string Usuario { get; set; }
+        public string User { get; set; }
         public string Password { get; set; }
 
         public UserItem ToUserItem()
@@ -20,7 +20,7 @@ namespace Resource.RequestModels
 
             userItem.IdPerson = IdPerson;
             userItem.IdRol = IdRol;
-            userItem.Usuario = Usuario;
+            userItem.User = User;
             userItem.Password = Password;
 
             userItem.InsertDate = DateTime.Now;

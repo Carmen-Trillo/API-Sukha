@@ -10,15 +10,15 @@ namespace Logic.ILogic
 {
     public interface IOrderLogic
     {
-        int InsertOrder(OrderItem orderItem);
-        void UpdateOrder(OrderItem orderItem);
-        void DeleteOrder(int id);
-        List<OrderItem> GetAllOrders();
-        List<OrderItem> GetOrdersByCriteria(OrderFilter orderFilter);
-        List<OrderItem> GetOrdersByCustomer(int idCustomer);
-        List<OrderItem> GetOrdersByProduct(int idProduct);
+        Task <int> InsertOrderAsync(OrderItem orderItem);
+        Task UpdateOrderAsync(OrderItem orderItem);
+        Task DeleteOrderAsync(int id);
+        Task <List<OrderItem>> GetAllOrdersAsync();
+        Task <List<OrderItem>> GetOrdersByCriteriaAsync(OrderFilter orderFilter);
+        Task <List<OrderItem>> GetOrdersByCustomerAsync(int idCustomer);
+        Task <List<OrderItem>> GetOrdersByProductAsync(int idProduct);
 
-        List<OrderItem> GetOrdersByPagados(bool pagado);
-        List<OrderItem> GetOrdersByEntregados(bool entregado);
+        Task <List<OrderItem>> GetOrdersByPagadosAsync(bool pagado);
+        Task <List<OrderItem>> GetOrdersByEntregadosAsync(bool entregado);
     }
 }

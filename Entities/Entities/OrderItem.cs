@@ -12,20 +12,20 @@ namespace Entities.Entities
     {
         public int Id { get; set; }
         public Guid IdWeb { get; set; }
-        public DateTime FechaPedido { get; set; }
+        public DateTime DateOrder { get; set; }
         public int IdCustomer { get; set; }
         public int IdCustomerType { get; set; }
 
         public int IdProduct { get; set; }
-        public decimal Precio { get; set; }
+        public decimal Price { get; set; }
         
-        public int Cantidad { get; set; }
-        public decimal Descuento { get; set; }
-        public decimal ImporteTotal { get; set; }
+        public int Number { get; set; }
+        public decimal Discount { get; set; }
+        public decimal TotalAmount { get; set; }
 
-        public DateTime FechaEntrega { get; set; }
-        public bool Pagado { get; set; }
-        public bool Entregado { get; set; }
+        public DateTime DeliveryDate { get; set; }
+        public bool Paid { get; set; }
+        public bool Delivered { get; set; }
         public bool IsActive { get; set; }
     }
 }

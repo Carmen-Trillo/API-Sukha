@@ -41,7 +41,6 @@ namespace Logic.Logic
 
         }
 
-
         public List<CustomerTypeItem> GetAllCustomerTypes()
         {
             return _serviceContext.Set<CustomerTypeItem>().ToList();

@@ -9,9 +9,9 @@ namespace Logic.ILogic
 {
     public interface ICustomerTypeLogic
     {
-        int InsertCustomerType(CustomerTypeItem customerTypeItem);
-        void UpdateCustomerType(CustomerTypeItem customerTypeItem);
-        void DeleteCustomerType(int id);
-        List<CustomerTypeItem> GetAllCustomerTypes();
+        Task<int> InsertCustomerType(CustomerTypeItem customerTypeItem);
+        Task UpdateCustomerType(CustomerTypeItem customerTypeItem);
+        Task DeleteCustomerType(int id);
+        Task<List<CustomerTypeItem>> GetAllCustomerTypes();
     }
 }

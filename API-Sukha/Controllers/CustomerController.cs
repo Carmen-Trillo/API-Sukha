@@ -19,13 +19,13 @@ namespace API_Sukha.Controllers
             _customerServices = customerServices;
         }
 
-        [HttpPost(Name = "InsertarClientes")]
-        public int Post([FromHeader] string userUsuario, [FromHeader] string userPassword, [FromBody] CustomerItem customerItem)
+        [HttpPost(Name = "InsertCustomer")]
+        public async Task<int> Post([FromHeader] string userUser, [FromHeader] string userPassword, [FromBody] CustomerItem customerItem)
         {
-            var validCredentials = _securityServices.ValidateUserCredentials(userUsuario, userPassword, 1);
+            var validCredentials = _securityServices.ValidateUserCredentials(userUser, userPassword, 1);
             if (validCredentials == true)
             {
-                return _customerServices.InsertCustomer(customerItem);
+                return await _customerServices.InsertCustomer(customerItem);
             }
             else
             {
@@ -33,13 +33,13 @@ namespace API_Sukha.Controllers
             }
         }
 
-        [HttpGet(Name = "VerClientes")]
-        public List<CustomerItem> GetAllCustomers([FromHeader] string userUsuario, [FromHeader] string userPassword)
+        [HttpGet(Name = "GetAllCustomers")]
+        public async Task<List<CustomerItem>> GetAllCustomers([FromHeader] string userUser, [FromHeader] string userPassword)
         {
-            var validCredentials = _securityServices.ValidateUserCredentials(userUsuario, userPassword, 1);
+            var validCredentials = _securityServices.ValidateUserCredentials(userUser, userPassword, 1);
             if (validCredentials == true)
             {
-                return _customerServices.GetAllCustomers();
+                return await _customerServices.GetAllCustomers();
             }
             else
             {
@@ -47,13 +47,13 @@ namespace API_Sukha.Controllers
             }
         }
 
-        [HttpGet(Name = "MostrarClientePorFiltro")]
-        public List<CustomerItem> GetCustomersByCriteria([FromHeader] string userUsuario, [FromHeader] string userPassword, [FromQuery] CustomerFilter customerFilter)
+        [HttpGet(Name = "GetCustomerByCriteria")]
+        public async Task<List<CustomerItem>> GetCustomersByCriteria([FromHeader] string userUser, [FromHeader] string userPassword, [FromQuery] CustomerFilter customerFilter)
         {
-            var validCredentials = _securityServices.ValidateUserCredentials(userUsuario, userPassword, 1);
+            var validCredentials = _securityServices.ValidateUserCredentials(userUser, userPassword, 1);
             if (validCredentials == true)
             {
-                return _customerServices.GetCustomersByCriteria(customerFilter);
+                return await _customerServices.GetCustomersByCriteria(customerFilter);
             }
             else
             {
@@ -61,14 +61,13 @@ namespace API_Sukha.Controllers
             }
         }
 
-
-        [HttpPatch(Name = "ModificarCliente")]
-        public void Patch([FromHeader] string userUsuario, [FromHeader] string userPassword, [FromBody] CustomerItem customerItem)
+        [HttpPatch(Name = "UpdateCustomer")]
+        public async Task UpdateCustomer([FromHeader] string userUser, [FromHeader] string userPassword, [FromBody] CustomerItem customerItem)
         {
-            var validCredentials = _securityServices.ValidateUserCredentials(userUsuario, userPassword, 1);
+            var validCredentials = _securityServices.ValidateUserCredentials(userUser, userPassword, 1);
             if (validCredentials == true)
             {
-                _customerServices.UpdateCustomer(customerItem);
+                await _customerServices.UpdateCustomer(customerItem);
             }
             else
             {
@@ -76,14 +75,13 @@ namespace API_Sukha.Controllers
             }
         }
 
-
-        [HttpDelete(Name = "EliminarCliente")]
-        public void Delete([FromHeader] string userUsuario, [FromHeader] string userPassword, [FromQuery] int id)
+        [HttpDelete(Name = "DeleteCustomer")]
+        public async Task DeleteCustomer([FromHeader] string userUser, [FromHeader] string userPassword, [FromQuery] int id)
         {
-            var validCredentials = _securityServices.ValidateUserCredentials(userUsuario, userPassword, 1);
+            var validCredentials = _securityServices.ValidateUserCredentials(userUser, userPassword, 1);
             if (validCredentials == true)
             {
-                _customerServices.DeleteCustomer(id);
+                await _customerServices.DeleteCustomer(id);
             }
             else
             {
@@ -92,3 +90,4 @@ namespace API_Sukha.Controllers
         }
     }
 }
+

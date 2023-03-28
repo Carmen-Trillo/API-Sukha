@@ -53,41 +53,34 @@ namespace Logic.Logic
         {
             var resultList = _serviceContext.Set<OrderItem>()
                                             .Where(p => p.IsActive == true);
-                                            //.Where(p => p.Pagado == true)
-                                            //.Where(p => p.Entregado == true);
-                                            
-            //.Where(p => p.Pagado == true);
-
-
-
 
             if (orderFilter.InsertDateFrom != null)
             {
-                resultList = resultList.Where(p => p.FechaPedido > orderFilter.InsertDateFrom);
+                resultList = resultList.Where(p => p.DateOrder > orderFilter.InsertDateFrom);
             }
 
             if (orderFilter.InsertDateTo != null)
             {
-                resultList = resultList.Where(p => p.FechaPedido < orderFilter.InsertDateTo);
+                resultList = resultList.Where(p => p.DateOrder < orderFilter.InsertDateTo);
             }
-            if (orderFilter.ImporteTotalDesde != null)
+            if (orderFilter.TotalAmountFrom != null)
             {
-                resultList = resultList.Where(p => p.ImporteTotal > orderFilter.ImporteTotalDesde);
-            }
-
-            if (orderFilter.ImporteTotalHasta != null)
-            {
-                resultList = resultList.Where(p => p.ImporteTotal < orderFilter.ImporteTotalHasta);
+                resultList = resultList.Where(p => p.TotalAmount > orderFilter.TotalAmountFrom);
             }
 
-            if (orderFilter.FechaEntregaDesde != null)
+            if (orderFilter.TotalAmountTo != null)
             {
-                resultList = resultList.Where(p => p.FechaEntrega > orderFilter.FechaEntregaDesde);
+                resultList = resultList.Where(p => p.TotalAmount < orderFilter.TotalAmountTo);
             }
 
-            if (orderFilter.FechaEntregaHasta != null)
+            if (orderFilter.DeliveryDateFrom != null)
             {
-                resultList = resultList.Where(p => p.FechaEntrega < orderFilter.FechaEntregaHasta);
+                resultList = resultList.Where(p => p.DeliveryDate > orderFilter.DeliveryDateFrom);
+            }
+
+            if (orderFilter.DeliveryDateTo != null)
+            {
+                resultList = resultList.Where(p => p.DeliveryDate < orderFilter.DeliveryDateTo);
             }
 
             return resultList.ToList();
@@ -113,14 +106,14 @@ namespace Logic.Logic
             return resultList.ToList();
         }
 
-        public List<OrderItem> GetOrdersByPagados(bool pagado)
+        public List<OrderItem> GetOrdersByPagados(bool paid)
         {
             var resultList = _serviceContext.Set<OrderItem>()
-                                            .Where(p => p.Pagado == true);
+                                            .Where(p => p.Paid == true);
             var resultListNoPagados = _serviceContext.Set<OrderItem>()
-                                            .Where(p => p.Pagado == false);
+                                            .Where(p => p.Paid == false);
 
-            if (pagado == true)
+            if (paid == true)
             {
                 return resultList.ToList();
             }
@@ -129,14 +122,14 @@ namespace Logic.Logic
                 return resultListNoPagados.ToList();
             }
         }
-        public List<OrderItem> GetOrdersByEntregados(bool entregado)
+        public List<OrderItem> GetOrdersByEntregados(bool delivered)
         {
             var resultList = _serviceContext.Set<OrderItem>()
-                                            .Where(p => p.Entregado == true);
+                                            .Where(p => p.Delivered == true);
             var resultListNoEntregados = _serviceContext.Set<OrderItem>()
-                                            .Where(p => p.Entregado == false);
+                                            .Where(p => p.Delivered == false);
 
-            if (entregado == true)
+            if (delivered == true)
             {
                 return resultList.ToList();
             }

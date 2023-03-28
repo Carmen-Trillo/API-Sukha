@@ -10,6 +10,6 @@ namespace Entities.SearchFilters
     {
         public DateTime? InsertDateFrom { get; set; }
         public DateTime? InsertDateTo { get; set; }
-        public string Provincia { get; set; }
+        public string Province { get; set; }
     }
 }

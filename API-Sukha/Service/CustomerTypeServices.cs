@@ -12,25 +12,25 @@ namespace API_Sukha.Services
             _customerTypeLogic = customerTypeLogic;
         }
 
-        public void DeleteCustomerType(int id)
+        public async Task DeleteCustomerTypeAsync(int id)
         {
-            _customerTypeLogic.DeleteCustomerType(id);
+            await _customerTypeLogic.DeleteCustomerTypeAsync(id);
         }
 
-        public List<CustomerTypeItem> GetAllCustomerTypes()
+        public async Task<List<CustomerTypeItem>> GetAllCustomerTypesAsync()
         {
-            return _customerTypeLogic.GetAllCustomerTypes();
+            return await _customerTypeLogic.GetAllCustomerTypesAsync();
         }
 
-        public int InsertCustomerType(CustomerTypeItem customerTypeItem)
+        public async Task<int> InsertCustomerTypeAsync(CustomerTypeItem customerTypeItem)
         {
-            _customerTypeLogic.InsertCustomerType(customerTypeItem);
+            await _customerTypeLogic.InsertCustomerTypeAsync(customerTypeItem);
             return customerTypeItem.Id;
         }
 
-        public void UpdateCustomerType(CustomerTypeItem customerTypeItem)
+        public async Task UpdateCustomerTypeAsync(CustomerTypeItem customerTypeItem)
         {
-            _customerTypeLogic.UpdateCustomerType(customerTypeItem);
+            await _customerTypeLogic.UpdateCustomerTypeAsync(customerTypeItem);
         }
 
     }

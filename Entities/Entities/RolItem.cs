@@ -10,7 +10,7 @@ namespace Entities.Entities
     {
         public RolItem() { }
         public int Id { get; set; }
-        public string TipoRol { get; set; }
+        public string RolType { get; set; }
         public bool IsActive { get; set; }
     }
 }

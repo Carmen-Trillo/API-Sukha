@@ -12,8 +12,8 @@ namespace Entities.SearchFilters
         public bool IsActive { get; set; }
         public DateTime? InsertDateFrom { get; set; }
         public DateTime? InsertDateTo { get; set; }
-        public int? PrecioDesde { get; set; }
-        public int? PrecioHasta { get; set; }
-        //public string? Marca { get; set; }
+        public int? PriceFrom { get; set; }
+        public int? PriceTo { get; set; }
+
     }
 }

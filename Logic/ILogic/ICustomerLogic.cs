@@ -10,10 +10,10 @@ namespace Logic.ILogic
 {
     public interface ICustomerLogic
     {
-        int InsertCustomer(CustomerItem customerItem);
-        void UpdateCustomer(CustomerItem customerItem);
-        void DeleteCustomer(int id);
-        List<CustomerItem> GetAllCustomers();
-        List<CustomerItem> GetCustomersByCriteria(CustomerFilter customerFilter);
+        Task<int> InsertCustomer(CustomerItem customerItem);
+        Task UpdateCustomer(CustomerItem customerItem);
+        Task DeleteCustomer(int id);
+        Task<List<CustomerItem>> GetAllCustomers();
+        Task<List<CustomerItem>> GetCustomersByCriteria(CustomerFilter customerFilter);
     }
 }

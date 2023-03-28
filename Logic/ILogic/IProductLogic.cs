@@ -1,5 +1,6 @@
 ﻿using Entities.Entities;
 using Entities.SearchFilters;
+using Resource.RequestModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,12 +11,14 @@ namespace Logic.ILogic
 {
     public interface IProductLogic
     {
-        int InsertProduct(ProductItem productItem);
-        void UpdateProduct(ProductItem productItem);
-        void DeleteProduct(int id);
-        void DeleteProductMarca(string marca);
-        List<ProductItem> GetAllProducts();
-        List<ProductItem> GetProductsByCriteria(ProductFilter productFilter);
-        List<ProductItem> GetProductsByMarca(string marca);
+        Task<int> InsertProduct(ProductItem productItem);
+        Task UpdateProduct(ProductItem productItem);
+        Task DeleteProduct(int id);
+        Task DeleteProductMarca(string marca);
+        Task<List<ProductItem>> GetAllProducts();
+        Task<ProductItem> GetProductById(int id);
+        Task<List<ProductItem>> GetProductsByCriteria(ProductFilter productFilter);
+        Task<List<ProductItem>> GetProductsByMarca(string marca);
+        Task<List<ProductItem>> GetProductsByCategory(string category);
     }
 }

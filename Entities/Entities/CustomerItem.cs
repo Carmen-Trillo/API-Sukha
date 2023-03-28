@@ -13,7 +13,7 @@ namespace Entities.Entities
         public int IdPerson { get; set; }
         public int IdRol { get; set; }
         public int IdCustomerType { get; set; }
-        public string Empresa { get; set; }
+        public string Company { get; set; }
         public string Sector { get; set; }
         public bool IsActive { get; set; }
         public DateTime InsertDate { get; set; }

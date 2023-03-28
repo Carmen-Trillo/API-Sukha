@@ -14,26 +14,26 @@ namespace API_Sukha.Services
         }
 
 
-        public int InsertPerson(PersonItem personItem)
+        public async Task<int> InsertPersonAsync(PersonItem personItem)
         {
-            _personLogic.InsertPerson(personItem);
+            await _personLogic.InsertPersonAsync(personItem);
             return personItem.Id;
         }
 
 
-        public void UpdatePerson(PersonItem personItem)
+        public async Task UpdatePersonAsync(PersonItem personItem)
         {
-            _personLogic.UpdatePerson(personItem);
+            await _personLogic.UpdatePersonAsync(personItem);
         }
 
-        public void DeletePerson(int id)
+        public async Task DeletePersonAsync(int id)
         {
-            _personLogic.DeletePerson(id);
+            await _personLogic.DeletePersonAsync(id);
         }
 
-        public List<PersonItem> GetAllPersons()
+        public async Task<List<PersonItem>> GetAllPersonsAsync()
         {
-            return _personLogic.GetAllPersons();
+            return await _personLogic.GetAllPersonsAsync();
         }
 
 

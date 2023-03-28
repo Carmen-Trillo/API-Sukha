@@ -9,9 +9,9 @@ namespace Logic.ILogic
 {
     public interface IPersonLogic
     {
-        int InsertPerson(PersonItem personItem);
-        void UpdatePerson(PersonItem personItem);
-        void DeletePerson(int id);
-        List<PersonItem> GetAllPersons();
+        Task<int> InsertPersonAsync(PersonItem personItem);
+        Task UpdatePersonAsync(PersonItem personItem);
+        Task DeletePersonAsync(int id);
+        Task <List<PersonItem>> GetAllPersonsAsync();
     }
 }

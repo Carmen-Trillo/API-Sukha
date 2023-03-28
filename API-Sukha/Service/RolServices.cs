@@ -14,25 +14,25 @@ namespace API_Sukha.Services
             _rolLogic = rolLogic;
         }
 
-        public void DeleteRol(int id)
+        public async Task DeleteRolAsync(int id)
         {
-            _rolLogic.DeleteRol(id);
+            await _rolLogic.DeleteRolAsync(id);
         }
 
-        public List<RolItem> GetAllRoles()
+        public async Task<List<RolItem>> GetAllRolesAsync()
         {
-            return _rolLogic.GetAllRoles();
+            return await _rolLogic.GetAllRolesAsync();
         }
 
-        public int InsertRol(RolItem rolItem)
+        public async Task<int> InsertRolAsync(RolItem rolItem)
         {
-            _rolLogic.InsertRol(rolItem);
+            await _rolLogic.InsertRolAsync(rolItem);
             return rolItem.Id;
         }
 
-        public void UpdateRol(RolItem rolItem)
+        public async Task UpdateRolAsync(RolItem rolItem)
         {
-            _rolLogic.UpdateRol(rolItem);
+            await _rolLogic.UpdateRolAsync(rolItem);
         }
     }
 }

@@ -9,68 +9,76 @@ namespace API_Sukha.Controllers
     [Route("[controller]/[action]")]
     public class PersonController : ControllerBase
     {
-        private ISecurityServices _securityServices;
+        private readonly ILogger<PersonController> _logger;
+        private readonly IPersonServices _personServices;
+        public PersonController(ILogger<PersonController> logger, IPersonServices personServices)
+        {
+            _logger = logger;
+            _personServices = personServices;
+        }
+
+        /*private ISecurityServices _securityServices;
         private IPersonServices _personServices;
         public PersonController(ISecurityServices securityServices, IPersonServices personServices)
         {
             _securityServices = securityServices;
             _personServices = personServices;
-        }
+        }*/
 
         [HttpPost(Name = "InsertarPersona")]
-        public int Post([FromHeader] string userUsuario, [FromHeader] string userPassword, [FromBody] PersonItem personItem)
-        {
-            var validCredentials = _securityServices.ValidateUserCredentials(userUsuario, userPassword, 1);
+        public async Task<int> PostAsync([FromBody] PersonItem personItem)
+        {/*[FromHeader] string userUsuario, [FromHeader] string userPassword, */
+            /*var validCredentials = _securityServices.ValidateUserCredentials(userUsuario, userPassword, 1);
             if (validCredentials == true)
-            {
-                return _personServices.InsertPerson(personItem);
-            }
+            {*/
+                return await _personServices.InsertPersonAsync(personItem);
+            /*}
             else
             {
                 throw new InvalidCredentialException();
-            }
+            }*/
         }
 
         [HttpGet(Name = "VerPersonas")]
-        public List<PersonItem> GetAllPersons([FromHeader] string userUsuario, [FromHeader] string userPassword)
-        {
-            var validCredentials = _securityServices.ValidateUserCredentials(userUsuario, userPassword, 1);
+        public async Task<List<PersonItem>> GetAllPersonsAsync()
+        {/*[FromHeader] string userUsuario, [FromHeader] string userPassword*/
+            /*var validCredentials = _securityServices.ValidateUserCredentials(userUsuario, userPassword, 1);
             if (validCredentials == true)
-            {
-                return _personServices.GetAllPersons();
-            }
+            {*/
+                return await _personServices.GetAllPersonsAsync();
+            /*}
             else
             {
                 throw new InvalidCredentialException();
-            }
+            }*/
         }
 
         [HttpPatch(Name = "ModificarPersona")]
-        public void Patch([FromHeader] string userUsuario, [FromHeader] string userPassword, [FromBody] PersonItem personItem)
-        {
-            var validCredentials = _securityServices.ValidateUserCredentials(userUsuario, userPassword, 1);
+        public async Task PatchAsync([FromBody] PersonItem personItem)
+        {/*[FromHeader] string userUsuario, [FromHeader] string userPassword, */
+            /*var validCredentials = _securityServices.ValidateUserCredentials(userUsuario, userPassword, 1);
             if (validCredentials == true)
-            {
-                _personServices.UpdatePerson(personItem);
-            }
+            {*/
+                await _personServices.UpdatePersonAsync(personItem);
+            /*}
             else
             {
                 throw new InvalidCredentialException();
-            }
+            }*/
         }
 
         [HttpDelete(Name = "EliminarPersona")]
-        public void Delete([FromHeader] string userUsuario, [FromHeader] string userPassword, [FromQuery] int id)
-        {
-            var validCredentials = _securityServices.ValidateUserCredentials(userUsuario, userPassword, 1);
+        public async Task DeleteAsync([FromQuery] int id)
+        {/*[FromHeader] string userUsuario, [FromHeader] string userPassword, */
+            /*var validCredentials = _securityServices.ValidateUserCredentials(userUsuario, userPassword, 1);
             if (validCredentials == true)
-            {
-                _personServices.DeletePerson(id);
-            }
+            {*/
+                await _personServices.DeletePersonAsync(id);
+            /*}
             else
             {
                 throw new InvalidCredentialException();
-            }
+            }*/
         }
 
         /*[HttpGet(Name = "MostrarPersonaPorFiltro")]

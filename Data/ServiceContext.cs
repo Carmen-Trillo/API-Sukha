@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
+using System.Reflection.Emit;
 
 namespace Data
 {
@@ -16,6 +17,7 @@ namespace Data
         public DbSet<CustomerItem> Customers { get; set; }
         public DbSet<RolItem> Roles { get; set; }
         public DbSet<CustomerTypeItem> CustomerTypes { get; set; }
+        public DbSet<FavoriteItem> Favorites { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<ProductItem>()
@@ -55,6 +57,9 @@ namespace Data
 
             builder.Entity<CustomerTypeItem>()
             .ToTable("CustomerTypes");
+
+            builder.Entity<FavoriteItem>()
+            .ToTable("Favorites");
 
             foreach (var relationship in builder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
             {

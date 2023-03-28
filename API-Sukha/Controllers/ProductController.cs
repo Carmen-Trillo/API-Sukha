@@ -2,6 +2,7 @@
 using Entities.Entities;
 using Entities.SearchFilters;
 using Microsoft.AspNetCore.Mvc;
+using Resource.RequestModels;
 using System.Security.Authentication;
 
 namespace APIService.Controllers
@@ -19,12 +20,12 @@ namespace APIService.Controllers
         }
 
         [HttpPost(Name = "InsertarProducto")]
-        public int Post([FromHeader] string userUsuario, [FromHeader] string userPassword, [FromBody] ProductItem productItem)
+        public int Post([FromHeader] string userUsuario, [FromHeader] string userPassword, [FromBody] NewProductRequest newProductRequest)
         {
             var validCredentials = _securityServices.ValidateUserCredentials(userUsuario, userPassword, 1);
             if (validCredentials == true)
             {
-                return _productServices.InsertProduct(productItem);
+                return _productServices.InsertProduct(newProductRequest);
             }
             else
             {
@@ -74,16 +75,21 @@ namespace APIService.Controllers
         }
 
         [HttpPatch(Name = "ModificarProducto")]
-        public void Patch([FromHeader] string userUsuario, [FromHeader] string userPassword, [FromBody] ProductItem productItem)
+        public void Patch(int id, [FromHeader] string userUsuario, [FromHeader] string userPassword, [FromBody] NewProductRequest newProductRequest)
         {
             var validCredentials = _securityServices.ValidateUserCredentials(userUsuario, userPassword, 1);
             if (validCredentials == true)
             {
-                _productServices.UpdateProduct(productItem);
+                _productServices.UpdateProduct(newProductRequest);
             }
             else
             {
-                throw new InvalidCredentialException();
+                var productToUpdate = _productServices.GetProductById(id);
+
+                if (productToUpdate != null)
+                {
+                    throw new InvalidCredentialException();
+                }
             }
         }
 

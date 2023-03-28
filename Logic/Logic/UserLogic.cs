@@ -71,3 +71,37 @@ namespace Logic.Logic
         
     }
 }
+
+/*namespace Entities.Entities
+{
+    public class UserItem
+    {
+        //atributos privados
+        private string EncryptedPassword { get; set; }
+        private string EncryptedToken { get; set; }
+        //o así sería lo mismo, ya que ese { get; set; } está definido más abajo
+        //private string EncryptedPassword;
+        //private string EncryptedToken;
+        //modificadores de accesibilidad
+        //sirven para que como programador te asegures que no se están usando mal esos atributos,
+        //sea en el Get o en el Set
+        //puede ser privado tanto el Get del atributo, como el Set, como ambos
+        //{ get; set; } esto lo que hace es definir por defecto un Get y un Set públicos simples.
+        public string GetEncryptedPassword(string parametrosNecesarios, string masParametrosEnCasoDeNecesitarlos)
+        {
+            //validaciones
+            //y toda la lógica o cuestiones de seguridad necesarias
+            //restricciones y operaciones al Get
+            //da más control y poder al momento de hacer el Get
+            return this.EncryptedPassword;
+        }
+        public void SetEncryptedPassword(string parametrosNecesarios, string masParametrosEnCasoDeNecesitarlos)
+        {
+            //validaciones
+            //y toda la lógica o cuestiones de seguridad necesarias
+            //restricciones y operaciones al Set
+            //da más control y poder al momento de hacer el Set
+            this.EncryptedPassword = "lo que sea";
+        }
+    }
+}*/

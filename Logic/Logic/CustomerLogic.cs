@@ -2,9 +2,11 @@
 using Entities.Entities;
 using Entities.SearchFilters;
 using Logic.ILogic;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,7 +19,7 @@ namespace Logic.Logic
         {
             _serviceContext = serviceContext;
         }
-        public int InsertCustomer(CustomerItem customerItem)
+        public async Task<int> InsertCustomer(CustomerItem customerItem)
         {
             if (customerItem.IdRol == 1)
             {
@@ -25,32 +27,32 @@ namespace Logic.Logic
             };
 
             _serviceContext.Customers.Add(customerItem);
-            _serviceContext.SaveChanges();
+            await _serviceContext.SaveChangesAsync();
             return customerItem.Id;
         }
 
-        public void UpdateCustomer(CustomerItem customerItem)
+        public async Task UpdateCustomer(CustomerItem customerItem)
         {
             _serviceContext.Customers.Update(customerItem);
-
-            _serviceContext.SaveChanges();
+            await _serviceContext.SaveChangesAsync();
         }
-        public void DeleteCustomer(int id)
+
+        public async Task DeleteCustomer(int id)
         {
-            var customerToDelete = _serviceContext.Set<CustomerItem>()
-                 .Where(u => u.Id == id).First();
+            var customerToDelete = await _serviceContext.Set<CustomerItem>()
+                 .Where(u => u.Id == id).FirstAsync();
 
             customerToDelete.IsActive = false;
 
-            _serviceContext.SaveChanges();
-
+            await _serviceContext.SaveChangesAsync();
         }
 
-        public List<CustomerItem> GetAllCustomers()
+        public async Task<List<CustomerItem>> GetAllCustomers()
         {
-            return _serviceContext.Set<CustomerItem>().ToList();
+            return await _serviceContext.Set<CustomerItem>().ToListAsync();
         }
-        public List<CustomerItem> GetCustomersByCriteria(CustomerFilter customerFilter)
+
+        public async Task<List<CustomerItem>> GetCustomersByCriteria(CustomerFilter customerFilter)
         {
             var resultList = _serviceContext.Set<CustomerItem>()
                                 .Where(u => u.IsActive == true);
@@ -65,7 +67,8 @@ namespace Logic.Logic
                 resultList = resultList.Where(u => u.InsertDate < customerFilter.InsertDateTo);
             }
 
-            return resultList.ToList();
+            return await resultList.ToListAsync();
         }
     }
 }
+

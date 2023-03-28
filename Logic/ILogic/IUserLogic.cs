@@ -10,10 +10,10 @@ namespace Logic.ILogic
 {
     public interface IUserLogic
     {
-        int InsertUser(UserItem userItem);
-        void UpdateUser(UserItem userItem);
-        void DeleteUser(int id);
-        List<UserItem> GetAllUsers();
-        List<UserItem> GetUsersByCriteria(UserFilter userFilter);
+        Task <int> InsertUserAsync(UserItem userItem);
+        Task UpdateUserAsync(UserItem userItem);
+        Task DeleteUserAsync(int id);
+        Task <List<UserItem>> GetAllUsersAsync();
+        Task <List<UserItem>> GetUsersByCriteriaAsync(UserFilter userFilter);
     }
 }

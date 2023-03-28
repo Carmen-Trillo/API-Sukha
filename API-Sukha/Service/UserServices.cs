@@ -13,28 +13,28 @@ namespace API_Sukha.Services
         {
             _userLogic = userLogic;
         }
-        public int InsertUser(NewUserRequest newUserRequest)
+        public async Task<int> InsertUserAsync(NewUserRequest newUserRequest)
         {
             var newUserItem = newUserRequest.ToUserItem();
-            return _userLogic.InsertUser(newUserItem);
+            return await _userLogic.InsertUserAsync(newUserItem);
         }
-        public List<UserItem> GetAllUsers()
+        public async Task<List<UserItem>> GetAllUsersAsync()
         {
-            return _userLogic.GetAllUsers();
+            return await _userLogic.GetAllUsersAsync();
         }
-        public List<UserItem> GetUsersByCriteria(UserFilter userFilter)
+        public async Task<List<UserItem>> GetUsersByCriteriaAsync(UserFilter userFilter)
         {
-            return _userLogic.GetUsersByCriteria(userFilter);
-        }
-
-        public void UpdateUser(UserItem userItem)
-        {
-            _userLogic.UpdateUser(userItem);
+            return await _userLogic.GetUsersByCriteriaAsync(userFilter);
         }
 
-        public void DeleteUser(int id)
+        public async Task UpdateUserAsync(UserItem userItem)
         {
-            _userLogic.DeleteUser(id);
+            await _userLogic.UpdateUserAsync(userItem);
+        }
+
+        public async Task DeleteUserAsync(int id)
+        {
+            await _userLogic.DeleteUserAsync(id);
         }
     }
 }

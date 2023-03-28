@@ -1,6 +1,7 @@
 ﻿using Data;
 using Entities.Entities;
 using Logic.ILogic;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,35 +17,35 @@ namespace Logic.Logic
         {
             _serviceContext = serviceContext;
         }
-        public int InsertPerson(PersonItem personItem)
+        public async Task<int> InsertPersonAsync(PersonItem personItem)
         {
-            _serviceContext.Persons.Add(personItem);
-            _serviceContext.SaveChanges();
+            await _serviceContext.Persons.AddAsync (personItem);
+            await _serviceContext.SaveChangesAsync();
             return personItem.Id;
         }
 
-        public void UpdatePerson(PersonItem personItem)
+        public async Task UpdatePersonAsync(PersonItem personItem)
         {
             _serviceContext.Persons.Update(personItem);
 
-            _serviceContext.SaveChanges();
+            await _serviceContext.SaveChangesAsync();
         }
-   
-        public void DeletePerson(int id)
+
+        public async Task DeletePersonAsync(int id)
         {
-            var personaToDelete = _serviceContext.Set<PersonItem>()
-                .Where(u => u.Id == id).First();
+            var personaToDelete = await _serviceContext.Set<PersonItem>()
+                .Where(u => u.Id == id).FirstAsync();
 
             personaToDelete.IsActive = false;
 
-            _serviceContext.SaveChanges();
+            await _serviceContext.SaveChangesAsync();
 
         }
 
 
-        public List<PersonItem> GetAllPersons()
+        public async Task<List<PersonItem>> GetAllPersonsAsync()
         {
-            return _serviceContext.Set<PersonItem>().ToList();
+            return await _serviceContext.Set<PersonItem>().ToListAsync();
         }
     }
     

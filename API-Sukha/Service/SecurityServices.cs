@@ -5,7 +5,7 @@ using Logic.ILogic;
 
 namespace API_Sukha.Services
 {
-    public class SecurityServices : ISecurityServices
+    /*public class SecurityServices : ISecurityServices
     {
         private readonly ISecurityLogic _securityLogic;
 
@@ -18,5 +18,5 @@ namespace API_Sukha.Services
 
             return _securityLogic.ValidateUserCredentials(userUsuario, userPassWord, idRol);
         }
-    }
+    }*/
 }

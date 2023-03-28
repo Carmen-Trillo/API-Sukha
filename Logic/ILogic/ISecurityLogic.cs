@@ -8,6 +8,7 @@ namespace Logic.ILogic
 {
     public interface ISecurityLogic
     {
-        bool ValidateUserCredentials(string userUsuario, string userPassword, int idRol);
+        Task<bool> ValidateUserCredentials(string userUser, string userPassword, int idRol);
     }
+
 }

@@ -14,74 +14,74 @@ namespace Resource.RequestModels
         //    _serviceContext = serviceContext;
         //}
         public Guid IdWeb { get; set; }
-        public DateTime FechaPedido { get; set; }
+        public DateTime DateOrder { get; set; }
         public int IdCustomer { get; set; }
         public int IdCustomerType { get; set; }
 
         public int IdProduct { get; set; }
 
-        public decimal Precio { get; set; }
+        public decimal Price { get; set; }
 
-        public int Cantidad { get; set; }
-        public decimal Descuento { get; private set; }
-        public decimal ImporteTotal { get; private set; }
+        public int Number { get; set; }
+        public decimal Discount { get; private set; }
+        public decimal TotalAmount { get; private set; }
 
-        public DateTime FechaEntrega { get; set; }
-        public bool Pagado { get; set; }
-        public bool Entregado { get; set; }
+        public DateTime DeliveryDate { get; set; }
+        public bool Paid { get; set; }
+        public bool Delivered { get; set; }
         public bool IsActive { get; set; }
         public OrderItem ToOrderItem()
         {
             var orderItem = new OrderItem();
 
             orderItem.IdWeb = IdWeb;
-            orderItem.FechaPedido = FechaPedido;
+            orderItem.DateOrder = DateOrder;
             orderItem.IdProduct = IdProduct;
             orderItem.IdCustomer = IdCustomer;
             orderItem.IdCustomerType= IdCustomerType;
-            orderItem.Cantidad = Cantidad;
-            orderItem.Precio= Precio;
+            orderItem.Number = Number;
+            orderItem.Price= Price;
 
             //pedidoItem.Descuento = 0.2M * (Cantidad * Precio);
 
             if (orderItem.IdCustomerType == 1)
             {
-                orderItem.Descuento = 0.1M* (Cantidad * Precio);
+                orderItem.Discount = 0.1M* (Number * Price);
             }
             else if (orderItem.IdCustomerType == 2)
             {
-                orderItem.Descuento = 0.15M* (Cantidad * Precio);
+                orderItem.Discount = 0.15M* (Number * Price);
             }
             else if (orderItem.IdCustomerType == 3)
             {
-                orderItem.Descuento = 0.2M * (Cantidad * Precio);
+                orderItem.Discount = 0.2M * (Number * Price);
             }
             else
             {
-                orderItem.Descuento = 0;
+                orderItem.Discount = 0;
             }
 
             if (orderItem.IdCustomerType == 1)
             {
-                orderItem.ImporteTotal = 0.9M * (Cantidad * Precio);
+                orderItem.TotalAmount = 0.9M * (Number * Price);
             }
             else if (orderItem.IdCustomerType == 2)
             {
-                orderItem.ImporteTotal = 0.85M * (Cantidad * Precio);
+                orderItem.TotalAmount = 0.85M * (Number * Price);
             }
             else if (orderItem.IdCustomerType == 3)
             {
-                orderItem.ImporteTotal = 0.8M * (Cantidad * Precio);
+                orderItem.TotalAmount = 0.8M * (Number * Price);
             }
             else
             {
-                orderItem.ImporteTotal = Cantidad*Precio;
+                orderItem.TotalAmount = Number * Price;
             }
             //pedidoItem.ImporteTotal = (Cantidad * Precio) - pedidoItem.Descuento;
  
-            orderItem.FechaEntrega = FechaEntrega;
-            orderItem.Pagado = Pagado;
-            orderItem.Entregado = Entregado;
+            orderItem.DeliveryDate = DeliveryDate;
+            orderItem.Paid = Paid;
+            orderItem.Delivered = Delivered;
             orderItem.IsActive = true;
 
             return orderItem;

@@ -1,15 +1,17 @@
 ﻿using Entities.Entities;
 using Entities.SearchFilters;
+using Resource.RequestModels;
 
 namespace API_Sukha.IServices
 {
     public interface IProductServices
     {
-        int InsertProduct(ProductItem productItem);
-        void UpdateProduct(ProductItem productItem);
-        void DeleteProduct(int id);
-        List<ProductItem> GetAllProducts();
-        List<ProductItem> GetProductsByCriteria(ProductFilter productFilter);
-        List<ProductItem> GetProductsByMarca(string marca);
+        Task<int> InsertProduct(NewProductRequest newProductRequest);
+        Task UpdateProduct(NewProductRequest newProductRequest);
+        Task DeleteProduct(int id);
+        Task<List<ProductItem>> GetAllProducts();
+        Task<ProductItem> GetProductById(int id);
+        Task<List<ProductItem>> GetProductsByCriteria(ProductFilter productFilter);
+        Task<List<ProductItem>> GetProductsByMarca(string marca);
     }
 }

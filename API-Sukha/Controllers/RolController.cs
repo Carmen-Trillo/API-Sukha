@@ -9,68 +9,76 @@ namespace API_Sukha.Controllers
     [Route("[controller]/[action]")]
     public class RolController : ControllerBase
     {
-        private ISecurityServices _securityServices;
+        private readonly ILogger<RolController> _logger;
+        private readonly IRolServices _rolServices;
+        public RolController(ILogger<RolController> logger, IRolServices rolServices)
+        {
+            _logger = logger;
+            _rolServices = rolServices;
+        }
+
+        /*private ISecurityServices _securityServices;
         private IRolServices _rolServices;
         public RolController(ISecurityServices securityServices, IRolServices rolServices)
         {
             _securityServices = securityServices;
             _rolServices = rolServices;
-        }
+        }*/
 
         [HttpPost(Name = "InsertarRol")]
-        public int Post([FromHeader] string userUsuario, [FromHeader] string userPassword, [FromBody] RolItem rolItem)
-        {
-            var validCredentials = _securityServices.ValidateUserCredentials(userUsuario, userPassword, 1);
+        public async Task<int> PostAsync([FromBody] RolItem rolItem)
+        {/*[FromHeader] string userUsuario, [FromHeader] string userPassword, */
+            /*var validCredentials = _securityServices.ValidateUserCredentials(userUsuario, userPassword, 1);
             if (validCredentials == true)
-            {
-                return _rolServices.InsertRol(rolItem);
-            }
+            {*/
+                return await _rolServices.InsertRolAsync(rolItem);
+            /*}
             else
             {
                 throw new InvalidCredentialException();
-            }
+            }*/
         }
 
         [HttpGet(Name = "VerRoles")]
-        public List<RolItem> GetAll([FromHeader] string userUsuario, [FromHeader] string userPassword)
-        {
-            var validCredentials = _securityServices.ValidateUserCredentials(userUsuario, userPassword, 1);
+        public async Task<List<RolItem>> GetAllRolesAsync()
+        {/*[FromHeader] string userUsuario, [FromHeader] string userPassword*/
+            /*var validCredentials = _securityServices.ValidateUserCredentials(userUsuario, userPassword, 1);
             if (validCredentials == true)
-            {
-                return _rolServices.GetAllRoles();
-            }
+            {*/
+                return await _rolServices.GetAllRolesAsync();
+            /*}
             else
             {
                 throw new InvalidCredentialException();
-            }
+            }*/
         }
 
         [HttpPatch(Name = "ModificarRol")]
-        public void Patch([FromHeader] string userUsuario, [FromHeader] string userPassword, [FromBody] RolItem rolItem)
-        {
-            var validCredentials = _securityServices.ValidateUserCredentials(userUsuario, userPassword, 1);
+        public async Task PatchAsync([FromBody] RolItem rolItem)
+        {/*[FromHeader] string userUsuario, [FromHeader] string userPassword, */
+            /*var validCredentials = _securityServices.ValidateUserCredentials(userUsuario, userPassword, 1);
             if (validCredentials == true)
-            {
-                _rolServices.UpdateRol(rolItem);
-            }
+            {*/
+                await _rolServices.UpdateRolAsync(rolItem);
+            /*}
             else
             {
                 throw new InvalidCredentialException();
-            }
+            }*/
         }
 
         [HttpDelete(Name = "EliminarRol")]
-        public void Delete([FromHeader] string userUsuario, [FromHeader] string userPassword, [FromQuery] int id)
-        {
-            var validCredentials = _securityServices.ValidateUserCredentials(userUsuario, userPassword, 1);
+        public async Task DeleteAsync([FromQuery] int id)
+        {/*[FromHeader] string userUsuario, [FromHeader] string userPassword, */
+            /*var validCredentials = _securityServices.ValidateUserCredentials(userUsuario, userPassword, 1);
             if (validCredentials == true)
-            {
-                _rolServices.DeleteRol(id);
-            }
+            {*/
+                await _rolServices.DeleteRolAsync(id);
+            /*}
             else
             {
                 throw new InvalidCredentialException();
-            }
+            }*/
         }
     }
 }

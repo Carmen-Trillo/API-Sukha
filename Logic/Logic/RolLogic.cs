@@ -1,6 +1,7 @@
 ﻿using Data;
 using Entities.Entities;
 using Logic.ILogic;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,35 +17,35 @@ namespace Logic.Logic
         {
             _serviceContext = serviceContext;
         }
-        public int InsertRol(RolItem rolItem)
+        public async Task<int> InsertRolAsync(RolItem rolItem)
         {
-            _serviceContext.Roles.Add(rolItem);
-            _serviceContext.SaveChanges();
+            await _serviceContext.Roles.AddAsync(rolItem);
+            await _serviceContext.SaveChangesAsync();
             return rolItem.Id;
         }
 
-        public void UpdateRol(RolItem rolItem)
+        public async Task UpdateRolAsync(RolItem rolItem)
         {
             _serviceContext.Roles.Update(rolItem);
 
-            _serviceContext.SaveChanges();
+            await _serviceContext.SaveChangesAsync();
         }
 
-        public void DeleteRol(int id)
+        public async Task DeleteRolAsync(int id)
         {
-            var rolToDelete = _serviceContext.Set<RolItem>()
-                .Where(u => u.Id == id).First();
+            var rolToDelete = await _serviceContext.Set<RolItem>()
+                .Where(u => u.Id == id).FirstAsync();
 
             rolToDelete.IsActive = false;
 
-            _serviceContext.SaveChanges();
+            await _serviceContext.SaveChangesAsync();
 
         }
 
 
-        public List<RolItem> GetAllRoles()
+        public async Task <List<RolItem>> GetAllRolesAsync()
         {
-            return _serviceContext.Set<RolItem>().ToList();
+            return await _serviceContext.Set<RolItem>().ToListAsync();
         }
     }
 }
