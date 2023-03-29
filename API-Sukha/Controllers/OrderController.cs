@@ -71,7 +71,7 @@ namespace API_Sukha.Controllers
         }
 
         [HttpGet(Name = "GetOrdersByCustomer")]
-        public async Task<List<OrderItem>> GetOrdersByClienteAsync([FromHeader] string userUser, [FromHeader] string userPassword, [FromQuery] int idCustomer)
+        public async Task<List<OrderItem>> GetOrdersByCustomerAsync([FromHeader] string userUser, [FromHeader] string userPassword, [FromQuery] int idCustomer)
         {
             var validCredentials = _securityServices.ValidateUserCredentials(userUser, userPassword, 1);
             if (validCredentials == true)
@@ -85,7 +85,7 @@ namespace API_Sukha.Controllers
         }
 
         [HttpGet(Name = "GetOrdersByProduct")]
-        public async Task<List<OrderItem>> GetOrdersByProductoAsync([FromHeader] string userUser, [FromHeader] string userPassword, [FromQuery] int idProduct)
+        public async Task<List<OrderItem>> GetOrdersByProductAsync([FromHeader] string userUser, [FromHeader] string userPassword, [FromQuery] int idProduct)
         {
             var validCredentials = _securityServices.ValidateUserCredentials(userUser, userPassword, 1);
             if (validCredentials == true)
@@ -99,7 +99,7 @@ namespace API_Sukha.Controllers
         }
 
         [HttpGet(Name = "GetOrdersByPaid")]
-        public async Task<List<OrderItem>> GetOrdersByPagadosAsync([FromHeader] string userUser, [FromHeader] string userPassword, [FromQuery] bool pagado)
+        public async Task<List<OrderItem>> GetOrdersByPaidAsync([FromHeader] string userUser, [FromHeader] string userPassword, [FromQuery] bool pagado)
         {
             var validCredentials = _securityServices.ValidateUserCredentials(userUser, userPassword, 1);
             if (validCredentials == true)
@@ -113,7 +113,7 @@ namespace API_Sukha.Controllers
         }
 
         [HttpGet(Name = "GetOrdersByDelivered")]
-        public async Task<List<OrderItem>> GetOrdersByEntregadosAsync([FromHeader] string userUser, [FromHeader] string userPassword, [FromQuery] bool entregado)
+        public async Task<List<OrderItem>> GetOrdersByDeliveredAsync([FromHeader] string userUser, [FromHeader] string userPassword, [FromQuery] bool entregado)
         {
             var validCredentials = _securityServices.ValidateUserCredentials(userUser, userPassword, 1);
             if (validCredentials == true)
