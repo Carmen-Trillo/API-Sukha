@@ -23,6 +23,10 @@ namespace API_Sukha.Services
         {
             return await _rolLogic.GetAllRolesAsync();
         }
+        public async Task<RolItem> GetRolByIdAsync(int id)
+        {
+            return await _rolLogic.GetRolByIdAsync(id);
+        }
 
         public async Task<int> InsertRolAsync(RolItem rolItem)
         {

@@ -1,6 +1,7 @@
 ﻿using Data;
 using Entities.Entities;
 using Logic.ILogic;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,34 +17,34 @@ namespace Logic.Logic
         {
             _serviceContext = serviceContext;
         }
-        public int InsertCustomerType(CustomerTypeItem customerTypeItem)
+        public async Task<int> InsertCustomerTypeAsync(CustomerTypeItem customerTypeItem)
         {
-            _serviceContext.CustomerTypes.Add(customerTypeItem);
-            _serviceContext.SaveChanges();
+            await _serviceContext.CustomerTypes.AddAsync(customerTypeItem);
+            await _serviceContext.SaveChangesAsync();
             return customerTypeItem.Id;
         }
 
-        public void UpdateCustomerType(CustomerTypeItem customerTypeItem)
+        public async Task UpdateCustomerTypeAsync(CustomerTypeItem customerTypeItem)
         {
             _serviceContext.CustomerTypes.Update(customerTypeItem);
 
-            _serviceContext.SaveChanges();
+            await _serviceContext.SaveChangesAsync();
         }
 
-        public void DeleteCustomerType(int id)
+        public async Task DeleteCustomerTypeAsync(int id)
         {
-            var customerTypeToDelete = _serviceContext.Set<CustomerTypeItem>()
-                .Where(u => u.Id == id).First();
+            var customerTypeToDelete = await _serviceContext.Set<CustomerTypeItem>()
+                .Where(u => u.Id == id).FirstAsync();
 
             customerTypeToDelete.IsActive = false;
 
-            _serviceContext.SaveChanges();
+            await _serviceContext.SaveChangesAsync();
 
         }
 
-        public List<CustomerTypeItem> GetAllCustomerTypes()
+        public async Task<List<CustomerTypeItem>> GetAllCustomerTypesAsync()
         {
-            return _serviceContext.Set<CustomerTypeItem>().ToList();
+            return await _serviceContext.Set<CustomerTypeItem>().ToListAsync();
         }
     }
 }

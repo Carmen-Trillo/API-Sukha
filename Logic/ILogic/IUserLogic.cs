@@ -14,6 +14,7 @@ namespace Logic.ILogic
         Task UpdateUserAsync(UserItem userItem);
         Task DeleteUserAsync(int id);
         Task <List<UserItem>> GetAllUsersAsync();
+        Task<UserItem> GetUserByIdAsync(int id);
         Task <List<UserItem>> GetUsersByCriteriaAsync(UserFilter userFilter);
     }
 }

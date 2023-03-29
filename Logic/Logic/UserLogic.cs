@@ -2,6 +2,7 @@
 using Entities.Entities;
 using Entities.SearchFilters;
 using Logic.ILogic;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,40 +18,40 @@ namespace Logic.Logic
         {
             _serviceContext = serviceContext;
         }
-        public int InsertUser(UserItem userItem)
+        public async Task<int> InsertUserAsync(UserItem userItem)
         {
             if (userItem.IdRol == 1)
             {
                 throw new InvalidOperationException();
             };
 
-            _serviceContext.Users.Add(userItem);
-            _serviceContext.SaveChanges();
+            await _serviceContext.Users.AddAsync(userItem);
+            await _serviceContext.SaveChangesAsync();
             return userItem.Id;
         }
 
-        public void UpdateUser(UserItem userItem)
+        public async Task UpdateUserAsync(UserItem userItem)
         {
             _serviceContext.Users.Update(userItem);
 
-            _serviceContext.SaveChanges();
+            await _serviceContext.SaveChangesAsync();
         }
-        public void DeleteUser(int id)
+        public async Task DeleteUserAsync(int id)
         {
-            var userToDelete = _serviceContext.Set<UserItem>()
-                 .Where(u => u.Id == id).First();
+            var userToDelete = await _serviceContext.Set<UserItem>()
+                 .Where(u => u.Id == id).FirstAsync();
 
             userToDelete.IsActive = false;
 
-            _serviceContext.SaveChanges();
+            await _serviceContext.SaveChangesAsync();
 
         }
 
-        public List<UserItem> GetAllUsers()
+        public async Task<List<UserItem>> GetAllUsersAsync()
         {
-            return _serviceContext.Set<UserItem>().ToList();
+            return await _serviceContext.Set<UserItem>().ToListAsync();
         }
-        public List<UserItem> GetUsersByCriteria(UserFilter userFilter)
+        public async Task<List<UserItem>> GetUsersByCriteriaAsync(UserFilter userFilter)
         {
             var resultList = _serviceContext.Set<UserItem>()
                   .Where(u => u.IsActive == true);
@@ -65,43 +66,9 @@ namespace Logic.Logic
                 resultList = resultList.Where(u => u.InsertDate < userFilter.InsertDateTo);
             }
 
-            return resultList.ToList();
+            return await resultList.ToListAsync();
         }
 
         
     }
 }
-
-/*namespace Entities.Entities
-{
-    public class UserItem
-    {
-        //atributos privados
-        private string EncryptedPassword { get; set; }
-        private string EncryptedToken { get; set; }
-        //o así sería lo mismo, ya que ese { get; set; } está definido más abajo
-        //private string EncryptedPassword;
-        //private string EncryptedToken;
-        //modificadores de accesibilidad
-        //sirven para que como programador te asegures que no se están usando mal esos atributos,
-        //sea en el Get o en el Set
-        //puede ser privado tanto el Get del atributo, como el Set, como ambos
-        //{ get; set; } esto lo que hace es definir por defecto un Get y un Set públicos simples.
-        public string GetEncryptedPassword(string parametrosNecesarios, string masParametrosEnCasoDeNecesitarlos)
-        {
-            //validaciones
-            //y toda la lógica o cuestiones de seguridad necesarias
-            //restricciones y operaciones al Get
-            //da más control y poder al momento de hacer el Get
-            return this.EncryptedPassword;
-        }
-        public void SetEncryptedPassword(string parametrosNecesarios, string masParametrosEnCasoDeNecesitarlos)
-        {
-            //validaciones
-            //y toda la lógica o cuestiones de seguridad necesarias
-            //restricciones y operaciones al Set
-            //da más control y poder al momento de hacer el Set
-            this.EncryptedPassword = "lo que sea";
-        }
-    }
-}*/

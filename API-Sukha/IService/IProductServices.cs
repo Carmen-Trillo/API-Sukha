@@ -6,12 +6,12 @@ namespace API_Sukha.IServices
 {
     public interface IProductServices
     {
-        Task<int> InsertProduct(NewProductRequest newProductRequest);
-        Task UpdateProduct(NewProductRequest newProductRequest);
-        Task DeleteProduct(int id);
-        Task<List<ProductItem>> GetAllProducts();
-        Task<ProductItem> GetProductById(int id);
-        Task<List<ProductItem>> GetProductsByCriteria(ProductFilter productFilter);
-        Task<List<ProductItem>> GetProductsByMarca(string marca);
+        Task<int> InsertProductAsync(ProductItem productItem);
+        Task UpdateProductAsync(ProductItem productItem);
+        Task DeleteProductAsync(int id);
+        Task<List<ProductItem>> GetAllProductsAsyn();
+        Task<ProductItem> GetProductByIdAsync(int id);
+        Task<List<ProductItem>> GetProductsByCriteriaAsync(ProductFilter productFilter);
+        Task<List<ProductItem>> GetProductsByBrandAsync(string marca);
     }
 }

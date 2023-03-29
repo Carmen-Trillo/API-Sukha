@@ -13,7 +13,7 @@ namespace API_Sukha.IServices
         Task<List<OrderItem>> GetOrdersByCriteriaAsync(OrderFilter orderFilter);
         Task<List<OrderItem>> GetOrdersByCustomerAsync(int idCustomer);
         Task<List<OrderItem>> GetOrdersByProductAsync(int idProduct);
-        Task<List<OrderItem>> GetOrdersByPagadosAsync(bool pagado);
-        Task<List<OrderItem>> GetOrdersByEntregadosAsync(bool entregado);
+        Task<List<OrderItem>> GetOrdersByPaidAsync(bool pagado);
+        Task<List<OrderItem>> GetOrdersByDeliveredAsync(bool entregado);
     }
 }

@@ -10,6 +10,7 @@ namespace API_Sukha.IServices
         Task UpdateUserAsync(UserItem userItem);
         Task DeleteUserAsync(int id);
         Task<List<UserItem>> GetAllUsersAsync();
+        Task<UserItem> GetUserByIdAsync(int id);
         Task<List<UserItem>> GetUsersByCriteriaAsync(UserFilter userFilter);
     }
 }

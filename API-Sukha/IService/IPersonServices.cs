@@ -9,6 +9,7 @@ namespace API_Sukha.IServices
         Task UpdatePersonAsync(PersonItem personItem);
         Task DeletePersonAsync(int id);
         Task <List<PersonItem>> GetAllPersonsAsync();
+        Task<PersonItem> GetPersonByIdAsync(int id);
 
         //List<PersonItem> GetPersonByCriteria(PersonFilter personFilter);
     }

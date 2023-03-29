@@ -13,39 +13,38 @@ public class ProductServices : IProductServices
     {
         _productLogic = productLogic;
     }
-    public async Task<int> InsertProduct(NewProductRequest newProductRequest)
+    public async Task<int> InsertProductAsync(ProductItem productItem)
     {
-        var newProductItem = newProductRequest.ToProductItem();
-        return await _productLogic.InsertProduct(newProductItem);
+        await _productLogic.InsertProductAsync(productItem);
+        return productItem.Id;
     }
-    public async Task<List<ProductItem>> GetAllProducts()
+    public async Task<List<ProductItem>> GetAllProductsAsyn()
     {
-        return await _productLogic.GetAllProducts();
+        return await _productLogic.GetAllProductsAsync();
     }
-    public async Task<List<ProductItem>> GetProductsByCriteria(ProductFilter productFilter)
+    public async Task<List<ProductItem>> GetProductsByCriteriaAsync(ProductFilter productFilter)
     {
-        return await _productLogic.GetProductsByCriteria(productFilter);
-    }
-
-    public async Task<List<ProductItem>> GetProductsByMarca(string marca)
-    {
-        return await _productLogic.GetProductsByMarca(marca);
+        return await _productLogic.GetProductsByCriteriaAsync(productFilter);
     }
 
-    public async Task  UpdateProduct(NewProductRequest newProductRequest)
+    public async Task<List<ProductItem>> GetProductsByBrandAsync(string marca)
     {
-        var newProductItem = newProductRequest.ToProductItem();
-        await _productLogic.UpdateProduct(newProductItem);
+        return await _productLogic.GetProductsByBrandAsync(marca);
     }
 
-    public async Task DeleteProduct(int id)
+    public async Task  UpdateProductAsync(ProductItem productItem)
     {
-        await _productLogic.DeleteProduct(id);
+        await _productLogic.UpdateProductAsync(productItem);
     }
 
-    public async Task<ProductItem> GetProductById(int id)
+    public async Task DeleteProductAsync(int id)
     {
-        return await _productLogic.GetProductById(id);
+        await _productLogic.DeleteProductAsync(id);
+    }
+
+    public async Task<ProductItem> GetProductByIdAsync(int id)
+    {
+        return await _productLogic.GetProductByIdAsync(id);
     }
 }
 

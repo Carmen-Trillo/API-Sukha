@@ -19,9 +19,9 @@ namespace Logic.Logic
             _serviceContext = serviceContext;
         }
 
-        public async Task<bool> ValidateUserCredentials(string userUser, string userPassWord, int idRolItem)
+        public bool ValidateUserCredentials(string userUser, string userPassWord, int idRolItem)
         {
-            var selectedUser = await _serviceContext.Set<UserItem>()
+            var selectedUser = _serviceContext.Set<UserItem>()
                                     .FirstOrDefaultAsync(u => u.User == userUser
                                         && u.Password == userPassWord
                                         && u.IdRol == idRolItem);

@@ -38,13 +38,13 @@ namespace API_Sukha.Services
         {
             return await _orderLogic.GetOrdersByProductAsync(idProduct);
         }
-        public async Task<List<OrderItem>> GetOrdersByPagadosAsync(bool pagado)
+        public async Task<List<OrderItem>> GetOrdersByPaidAsync(bool pagado)
         {
-            return await _orderLogic.GetOrdersByPagadosAsync(pagado);
+            return await _orderLogic.GetOrdersByPaidAsync(pagado);
         }
-        public async Task<List<OrderItem>> GetOrdersByEntregadosAsync(bool entregado)
+        public async Task<List<OrderItem>> GetOrdersByDeliveredAsync(bool entregado)
         {
-            return await _orderLogic.GetOrdersByEntregadosAsync(entregado);
+            return await _orderLogic.GetOrdersByDeliveredAsync(entregado);
         }
 
 

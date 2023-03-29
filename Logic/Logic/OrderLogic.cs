@@ -2,6 +2,7 @@
 using Entities.Entities;
 using Entities.SearchFilters;
 using Logic.ILogic;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,38 +19,38 @@ namespace Logic.Logic
         {
             _serviceContext = serviceContext;
         }
-        public int InsertOrder(OrderItem orderItem)
+        public async Task <int> InsertOrderAsync(OrderItem orderItem)
         {
             //get para comprobar que la cantida pedido<=sctok, añadir el pedido y despés hacer un update que modifique el stock
-            _serviceContext.Orders.Add(orderItem);
-            _serviceContext.SaveChanges();
+            await _serviceContext.Orders.AddAsync(orderItem);
+            await _serviceContext.SaveChangesAsync();
             return orderItem.Id;
         }
 
-        public void UpdateOrder(OrderItem orderItem)
+        public async Task UpdateOrderAsync(OrderItem orderItem)
         {
             _serviceContext.Orders.Update(orderItem);
 
-            _serviceContext.SaveChanges();
+            await _serviceContext.SaveChangesAsync();
         }
 
-        public void DeleteOrder(int id)
+        public async Task DeleteOrderAsync(int id)
         {
-            var orderToDelete = _serviceContext.Set<OrderItem>()
-                .Where(p => p.Id == id).First();
+            var orderToDelete = await _serviceContext.Set<OrderItem>()
+                .Where(p => p.Id == id).FirstAsync();
 
             orderToDelete.IsActive = false;
 
-            _serviceContext.SaveChanges();
+            await _serviceContext.SaveChangesAsync();
 
         }
 
-        public List<OrderItem> GetAllOrders()
+        public async Task <List<OrderItem>> GetAllOrdersAsync()
         {
-            return _serviceContext.Set<OrderItem>().ToList();
+            return await _serviceContext.Set<OrderItem>().ToListAsync();
         }
 
-        public List<OrderItem> GetOrdersByCriteria(OrderFilter orderFilter)
+        public async Task<List<OrderItem>> GetOrdersByCriteriaAsync(OrderFilter orderFilter)
         {
             var resultList = _serviceContext.Set<OrderItem>()
                                             .Where(p => p.IsActive == true);
@@ -83,30 +84,25 @@ namespace Logic.Logic
                 resultList = resultList.Where(p => p.DeliveryDate < orderFilter.DeliveryDateTo);
             }
 
-            return resultList.ToList();
+            return await resultList.ToListAsync();
 
         }
 
-        private void Where(Func<object, bool> value)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<OrderItem> GetOrdersByCustomer(int idCustomer)
+        public async Task <List<OrderItem>> GetOrdersByCustomerAsync(int idCustomer)
         {
             var resultList = _serviceContext.Set<OrderItem>()
                         .Where(p => p.IdCustomer == idCustomer);
-            return resultList.ToList();
+            return await resultList.ToListAsync();
         }
 
-        public List<OrderItem> GetOrdersByProduct(int idProduct)
+        public async Task <List<OrderItem>> GetOrdersByProductAsync(int idProduct)
         {
             var resultList = _serviceContext.Set<OrderItem>()
                         .Where(p => p.IdProduct == idProduct);
             return resultList.ToList();
         }
 
-        public List<OrderItem> GetOrdersByPagados(bool paid)
+        public async Task<List<OrderItem>> GetOrdersByPaidAsync(bool paid)
         {
             var resultList = _serviceContext.Set<OrderItem>()
                                             .Where(p => p.Paid == true);
@@ -122,7 +118,7 @@ namespace Logic.Logic
                 return resultListNoPagados.ToList();
             }
         }
-        public List<OrderItem> GetOrdersByEntregados(bool delivered)
+        public async Task <List<OrderItem>> GetOrdersByDeliveredAsync(bool delivered)
         {
             var resultList = _serviceContext.Set<OrderItem>()
                                             .Where(p => p.Delivered == true);

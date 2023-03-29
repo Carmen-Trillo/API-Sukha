@@ -47,5 +47,11 @@ namespace Logic.Logic
         {
             return await _serviceContext.Set<RolItem>().ToListAsync();
         }
+
+        public async Task<RolItem> GetRolByIdAsync(int id)
+        {
+            return await _serviceContext.Set<RolItem>()
+                    .Where(u => u.Id == id).FirstAsync();
+        }
     }
 }

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(ServiceContext))]
-    [Migration("20230317112108_Initial")]
+    [Migration("20230328221358_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -33,7 +33,7 @@ namespace Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Empresa")
+                    b.Property<string>("Company")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -99,20 +99,17 @@ namespace Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("Cantidad")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("DateOrder")
+                        .HasColumnType("datetime2");
 
-                    b.Property<decimal>("Descuento")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<bool>("Entregado")
+                    b.Property<bool>("Delivered")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("FechaEntrega")
+                    b.Property<DateTime>("DeliveryDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("FechaPedido")
-                        .HasColumnType("datetime2");
+                    b.Property<decimal>("Discount")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("IdCustomer")
                         .HasColumnType("int");
@@ -126,16 +123,19 @@ namespace Data.Migrations
                     b.Property<Guid>("IdWeb")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<decimal>("ImporteTotal")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("Pagado")
+                    b.Property<int>("Number")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Paid")
                         .HasColumnType("bit");
 
-                    b.Property<decimal>("Precio")
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("TotalAmount")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
@@ -155,27 +155,24 @@ namespace Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Apellidos")
+                    b.Property<string>("Address")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("CódigoPostal")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("Birthdate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DNI")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Dirección")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("FechaNacimiento")
-                        .HasColumnType("datetime2");
 
                     b.Property<Guid>("IdWeb")
                         .HasColumnType("uniqueidentifier");
@@ -186,20 +183,23 @@ namespace Data.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Nombre")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Población")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Provincia")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Teléfono")
+                    b.Property<int>("Phone")
                         .HasColumnType("int");
+
+                    b.Property<int>("PostalCode")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Province")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Surnames")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("UpdateDate")
                         .HasColumnType("datetime2");
@@ -217,17 +217,24 @@ namespace Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Categoría")
+                    b.Property<string>("Brand")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<byte[]>("Content")
-                        .IsRequired()
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<string>("Descripción")
+                    b.Property<string>("Category")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("FileExtension")
+                        .HasColumnType("int");
 
                     b.Property<Guid>("IdWeb")
                         .HasColumnType("uniqueidentifier");
@@ -241,15 +248,11 @@ namespace Data.Migrations
                     b.Property<bool>("IsPublic")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Marca")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Nombre")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("Precio")
+                    b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("Stock")
@@ -261,6 +264,8 @@ namespace Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Products", (string)null);
+
+                    b.UseTptMappingStrategy();
                 });
 
             modelBuilder.Entity("Entities.Entities.RolItem", b =>
@@ -274,7 +279,7 @@ namespace Data.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<string>("TipoRol")
+                    b.Property<string>("RolType")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -310,7 +315,7 @@ namespace Data.Migrations
                     b.Property<DateTime>("UpdateDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Usuario")
+                    b.Property<string>("User")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -322,6 +327,17 @@ namespace Data.Migrations
                     b.HasIndex("IdRol");
 
                     b.ToTable("Users", (string)null);
+                });
+
+            modelBuilder.Entity("Entities.Entities.FavoriteItem", b =>
+                {
+                    b.HasBaseType("Entities.Entities.ProductItem");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.ToTable("Favorites", (string)null);
                 });
 
             modelBuilder.Entity("Entities.Entities.CustomerItem", b =>
@@ -372,6 +388,15 @@ namespace Data.Migrations
                         .WithMany()
                         .HasForeignKey("IdRol")
                         .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Entities.Entities.FavoriteItem", b =>
+                {
+                    b.HasOne("Entities.Entities.ProductItem", null)
+                        .WithOne()
+                        .HasForeignKey("Entities.Entities.FavoriteItem", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

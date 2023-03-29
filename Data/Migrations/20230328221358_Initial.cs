@@ -33,14 +33,14 @@ namespace Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     IdWeb = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     DNI = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Apellidos = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FechaNacimiento = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Dirección = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Población = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Provincia = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CódigoPostal = table.Column<int>(type: "int", nullable: false),
-                    Teléfono = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Surnames = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Birthdate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Province = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PostalCode = table.Column<int>(type: "int", nullable: false),
+                    Phone = table.Column<int>(type: "int", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     InsertDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -58,17 +58,18 @@ namespace Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     IdWeb = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Categoría = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Marca = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Descripción = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Content = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
-                    Precio = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Category = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Brand = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Stock = table.Column<int>(type: "int", nullable: false),
                     InsertDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    IsPublic = table.Column<bool>(type: "bit", nullable: false)
+                    IsPublic = table.Column<bool>(type: "bit", nullable: false),
+                    FileExtension = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -81,12 +82,30 @@ namespace Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    TipoRol = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RolType = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Roles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Favorites",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Favorites", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Favorites_Products_Id",
+                        column: x => x.Id,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -98,7 +117,7 @@ namespace Data.Migrations
                     IdPerson = table.Column<int>(type: "int", nullable: false),
                     IdRol = table.Column<int>(type: "int", nullable: false),
                     IdCustomerType = table.Column<int>(type: "int", nullable: false),
-                    Empresa = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Company = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Sector = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     InsertDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -135,7 +154,7 @@ namespace Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     IdPerson = table.Column<int>(type: "int", nullable: false),
                     IdRol = table.Column<int>(type: "int", nullable: false),
-                    Usuario = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    User = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     InsertDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -165,17 +184,17 @@ namespace Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     IdWeb = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    FechaPedido = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateOrder = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IdCustomer = table.Column<int>(type: "int", nullable: false),
                     IdCustomerType = table.Column<int>(type: "int", nullable: false),
                     IdProduct = table.Column<int>(type: "int", nullable: false),
-                    Precio = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Cantidad = table.Column<int>(type: "int", nullable: false),
-                    Descuento = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    ImporteTotal = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    FechaEntrega = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Pagado = table.Column<bool>(type: "bit", nullable: false),
-                    Entregado = table.Column<bool>(type: "bit", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Number = table.Column<int>(type: "int", nullable: false),
+                    Discount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TotalAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    DeliveryDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Paid = table.Column<bool>(type: "bit", nullable: false),
+                    Delivered = table.Column<bool>(type: "bit", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -237,13 +256,16 @@ namespace Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Favorites");
+
+            migrationBuilder.DropTable(
                 name: "Order");
 
             migrationBuilder.DropTable(
-                name: "Products");
+                name: "Users");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "Products");
 
             migrationBuilder.DropTable(
                 name: "Customers");

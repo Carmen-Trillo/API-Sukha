@@ -11,14 +11,14 @@ namespace Logic.ILogic
 {
     public interface IProductLogic
     {
-        Task<int> InsertProduct(ProductItem productItem);
-        Task UpdateProduct(ProductItem productItem);
-        Task DeleteProduct(int id);
-        Task DeleteProductMarca(string marca);
-        Task<List<ProductItem>> GetAllProducts();
-        Task<ProductItem> GetProductById(int id);
-        Task<List<ProductItem>> GetProductsByCriteria(ProductFilter productFilter);
-        Task<List<ProductItem>> GetProductsByMarca(string marca);
-        Task<List<ProductItem>> GetProductsByCategory(string category);
+        Task<int> InsertProductAsync (ProductItem productItem);
+        Task UpdateProductAsync (ProductItem productItem);
+        Task DeleteProductAsync (int id);
+        Task DeleteProductMarcaAsync (string marca);
+        Task<List<ProductItem>> GetAllProductsAsync ();
+        Task<ProductItem> GetProductByIdAsync (int id);
+        Task<List<ProductItem>> GetProductsByCriteriaAsync (ProductFilter productFilter);
+        Task<List<ProductItem>> GetProductsByBrandAsync(string marca);
+        Task<List<ProductItem>> GetProductsByCategoryAsync (string category);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using API_Sukha.IServices;
 using Entities.Entities;
 using Logic.ILogic;
+using Logic.Logic;
 
 namespace API_Sukha.Services
 {
@@ -21,7 +22,10 @@ namespace API_Sukha.Services
         {
             return await _customerTypeLogic.GetAllCustomerTypesAsync();
         }
-
+        public async Task<CustomerTypeItem> GetCustomerTypeByIdAsync(int id)
+        {
+            return await _customerTypeLogic.GeCustomerTypeByIdAsync(id);
+        }
         public async Task<int> InsertCustomerTypeAsync(CustomerTypeItem customerTypeItem)
         {
             await _customerTypeLogic.InsertCustomerTypeAsync(customerTypeItem);

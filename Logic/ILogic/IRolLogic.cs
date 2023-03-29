@@ -13,5 +13,6 @@ namespace Logic.ILogic
         Task UpdateRolAsync(RolItem rolItem);
         Task DeleteRolAsync(int id);
         Task<List<RolItem>> GetAllRolesAsync();
+        Task<RolItem> GetRolByIdAsync(int id);
     }
 }

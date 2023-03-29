@@ -14,28 +14,33 @@ namespace API_Sukha.Services
         {
             _customerLogic = customerLogic;
         }
-        public async Task<int> InsertCustomer(CustomerItem customerItem)
+        public async Task<int> InsertCustomerAsync(CustomerTypeItem customerItem)
         {
-            await _customerLogic.InsertCustomer(customerItem);
+            await _customerLogic.InsertCustomerAsync(customerItem);
             return customerItem.Id;
         }
-        public async Task<List<CustomerItem>> GetAllCustomers()
+        public async Task<List<CustomerTypeItem>> GetAllCustomersAsync()
         {
-            return await _customerLogic.GetAllCustomers();
-        }
-        public async Task<List<CustomerItem>> GetCustomersByCriteria(CustomerFilter customerFilter)
-        {
-            return await _customerLogic.GetCustomersByCriteria(customerFilter);
+            return await _customerLogic.GetAllCustomersAsync();
         }
 
-        public async Task UpdateCustomer(CustomerItem customerItem)
+        public async Task<CustomerTypeItem> GetCustomerByIdAsync(int id)
         {
-            await _customerLogic.UpdateCustomer(customerItem);
+            return await _customerLogic.GetCustomerByIdAsync(id);
+        }
+        public async Task<List<CustomerTypeItem>> GetCustomersByCriteriaAsync(CustomerFilter customerFilter)
+        {
+            return await _customerLogic.GetCustomersByCriteriaAsync(customerFilter);
         }
 
-        public async Task DeleteCustomer(int id)
+        public async Task UpdateCustomerAsync(CustomerTypeItem customerItem)
         {
-            await _customerLogic.DeleteCustomer(id);
+            await _customerLogic.UpdateCustomerAsync(customerItem);
+        }
+
+        public async Task DeleteCustomerAsync(int id)
+        {
+            await _customerLogic.DeleteCustomerAsync(id);
         }
     }
 }

@@ -47,6 +47,12 @@ namespace Logic.Logic
         {
             return await _serviceContext.Set<PersonItem>().ToListAsync();
         }
+
+        public async Task<PersonItem> GetPersonByIdAsync(int id)
+        {
+            return await _serviceContext.Set<PersonItem>()
+                    .Where(u => u.Id == id).FirstAsync();
+        }
     }
     
 }

@@ -13,5 +13,6 @@ namespace Logic.ILogic
         Task UpdatePersonAsync(PersonItem personItem);
         Task DeletePersonAsync(int id);
         Task <List<PersonItem>> GetAllPersonsAsync();
+        Task<PersonItem> GetPersonByIdAsync(int id);
     }
 }

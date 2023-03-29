@@ -2,6 +2,7 @@
 using Entities.Entities;
 using Entities.SearchFilters;
 using Logic.ILogic;
+using Logic.Logic;
 using Resource.RequestModels;
 
 namespace API_Sukha.Services
@@ -21,6 +22,10 @@ namespace API_Sukha.Services
         public async Task<List<UserItem>> GetAllUsersAsync()
         {
             return await _userLogic.GetAllUsersAsync();
+        }
+        public async Task<UserItem> GetUserByIdAsync(int id)
+        {
+            return await _userLogic.GetUserByIdAsync(id);
         }
         public async Task<List<UserItem>> GetUsersByCriteriaAsync(UserFilter userFilter)
         {

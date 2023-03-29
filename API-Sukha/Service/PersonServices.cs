@@ -35,7 +35,10 @@ namespace API_Sukha.Services
         {
             return await _personLogic.GetAllPersonsAsync();
         }
-
+        public async Task<PersonItem> GetPersonByIdAsync(int id)
+        {
+            return await _personLogic.GetPersonByIdAsync(id);
+        }
 
 
     }
