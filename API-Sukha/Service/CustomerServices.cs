@@ -14,26 +14,26 @@ namespace API_Sukha.Services
         {
             _customerLogic = customerLogic;
         }
-        public async Task<int> InsertCustomerAsync(CustomerTypeItem customerItem)
+        public async Task<int> InsertCustomerAsync(CustomerItem customerItem)
         {
             await _customerLogic.InsertCustomerAsync(customerItem);
             return customerItem.Id;
         }
-        public async Task<List<CustomerTypeItem>> GetAllCustomersAsync()
+        public async Task<List<CustomerItem>> GetAllCustomersAsync()
         {
             return await _customerLogic.GetAllCustomersAsync();
         }
 
-        public async Task<CustomerTypeItem> GetCustomerByIdAsync(int id)
+        public async Task<CustomerItem> GetCustomerByIdAsync(int id)
         {
             return await _customerLogic.GetCustomerByIdAsync(id);
         }
-        public async Task<List<CustomerTypeItem>> GetCustomersByCriteriaAsync(CustomerFilter customerFilter)
+        public async Task<List<CustomerItem>> GetCustomersByCriteriaAsync(CustomerFilter customerFilter)
         {
             return await _customerLogic.GetCustomersByCriteriaAsync(customerFilter);
         }
 
-        public async Task UpdateCustomerAsync(CustomerTypeItem customerItem)
+        public async Task UpdateCustomerAsync(CustomerItem customerItem)
         {
             await _customerLogic.UpdateCustomerAsync(customerItem);
         }

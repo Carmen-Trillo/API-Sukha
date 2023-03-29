@@ -94,6 +94,11 @@ namespace Logic.Logic
                         .Where(p => p.IdCustomer == idCustomer);
             return await resultList.ToListAsync();
         }
+        public async Task<OrderItem> GetOrderByIdAsync(int id)
+        {
+            return await _serviceContext.Set<OrderItem>()
+                    .Where(u => u.Id == id).FirstAsync();
+        }
 
         public async Task <List<OrderItem>> GetOrdersByProductAsync(int idProduct)
         {

@@ -24,7 +24,7 @@ namespace API_Sukha.Services
         }
         public async Task<CustomerTypeItem> GetCustomerTypeByIdAsync(int id)
         {
-            return await _customerTypeLogic.GeCustomerTypeByIdAsync(id);
+            return await _customerTypeLogic.GetCustomerTypeByIdAsync(id);
         }
         public async Task<int> InsertCustomerTypeAsync(CustomerTypeItem customerTypeItem)
         {

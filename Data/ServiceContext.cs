@@ -14,7 +14,7 @@ namespace Data
         public DbSet<OrderItem> Orders { get; set; }
         public DbSet<PersonItem> Persons { get; set; }
         public DbSet<UserItem> Users { get; set; }
-        public DbSet<CustomerTypeItem> Customers { get; set; }
+        public DbSet<CustomerItem> Customers { get; set; }
         public DbSet<RolItem> Roles { get; set; }
         public DbSet<CustomerTypeItem> CustomerTypes { get; set; }
         public DbSet<FavoriteItem> Favorites { get; set; }
@@ -42,7 +42,7 @@ namespace Data
 
             });
 
-            builder.Entity<CustomerTypeItem>(customer =>
+            builder.Entity<CustomerItem>(customer =>
             {
                 customer.ToTable("Customers");
                 customer.HasOne<PersonItem>().WithMany().HasForeignKey(c => c.IdPerson);

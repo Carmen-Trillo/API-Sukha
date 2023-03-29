@@ -6,11 +6,11 @@ namespace API_Sukha.IServices
 {
     public interface ICustomerServices
     {
-        Task<int> InsertCustomerAsync(CustomerTypeItem customerItem);
-        Task UpdateCustomerAsync(CustomerTypeItem customerItem);
+        Task<int> InsertCustomerAsync(CustomerItem customerItem);
+        Task UpdateCustomerAsync(CustomerItem customerItem);
         Task DeleteCustomerAsync(int id);
-        Task<List<CustomerTypeItem>> GetAllCustomersAsync();
-        Task<CustomerTypeItem> GetCustomerByIdAsync(int id);
-        Task<List<CustomerTypeItem>> GetCustomersByCriteriaAsync(CustomerFilter customerFilter);
+        Task<List<CustomerItem>> GetAllCustomersAsync();
+        Task<CustomerItem> GetCustomerByIdAsync(int id);
+        Task<List<CustomerItem>> GetCustomersByCriteriaAsync(CustomerFilter customerFilter);
     }
 }

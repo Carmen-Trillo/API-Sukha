@@ -14,6 +14,7 @@ namespace Logic.ILogic
         Task UpdateOrderAsync(OrderItem orderItem);
         Task DeleteOrderAsync(int id);
         Task <List<OrderItem>> GetAllOrdersAsync();
+        Task<OrderItem> GetOrderByIdAsync(int id);
         Task <List<OrderItem>> GetOrdersByCriteriaAsync(OrderFilter orderFilter);
         Task <List<OrderItem>> GetOrdersByCustomerAsync(int idCustomer);
         Task <List<OrderItem>> GetOrdersByProductAsync(int idProduct);

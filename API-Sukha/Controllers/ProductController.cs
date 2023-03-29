@@ -1,4 +1,5 @@
 ﻿using API_Sukha.IServices;
+using API_Sukha.Services;
 using Entities.Entities;
 using Entities.SearchFilters;
 using Microsoft.AspNetCore.Mvc;
@@ -28,9 +29,9 @@ namespace APIService.Controllers
         }
 
         [HttpPost(Name = "InsertProduct")]
-        public async Task<int> PostAsync([FromHeader] string userUsuario, [FromHeader] string userPassword, [FromBody] ProductItem productItem)
+        public async Task<int> PostAsync([FromHeader] string userUser, [FromHeader] string userPassword, [FromBody] ProductItem productItem)
         {
-            var validCredentials = _securityServices.ValidateUserCredentials(userUsuario, userPassword, 1);
+            var validCredentials = _securityServices.ValidateUserCredentials(userUser, userPassword, 1);
             if (validCredentials == true)
             {
                 return await _productServices.InsertProductAsync(productItem);
@@ -42,9 +43,9 @@ namespace APIService.Controllers
         }
 
         [HttpGet(Name = "GetAllProducts")]
-        public async Task<List<ProductItem>> GetAllProductsAsync([FromHeader] string userUsuario, [FromHeader] string userPassword)
+        public async Task<List<ProductItem>> GetAllProductsAsync([FromHeader] string userUser, [FromHeader] string userPassword)
         {
-            var validCredentials = _securityServices.ValidateUserCredentials(userUsuario, userPassword, 1);
+            var validCredentials = _securityServices.ValidateUserCredentials(userUser, userPassword, 1);
             if (validCredentials == true)
             {
                 return await _productServices.GetAllProductsAsyn();
@@ -56,9 +57,9 @@ namespace APIService.Controllers
         }
 
         [HttpGet(Name = "GetProductsByCriteria")]
-        public async Task<List<ProductItem>> GetProductsByCriteriaAsync([FromHeader] string userUsuario, [FromHeader] string userPassword, [FromQuery] ProductFilter productFilter)
+        public async Task<List<ProductItem>> GetProductsByCriteriaAsync([FromHeader] string userUser, [FromHeader] string userPassword, [FromQuery] ProductFilter productFilter)
         {
-            var validCredentials = _securityServices.ValidateUserCredentials(userUsuario, userPassword, 1);
+            var validCredentials = _securityServices.ValidateUserCredentials(userUser, userPassword, 1);
             if (validCredentials == true)
             {
                 return await _productServices.GetProductsByCriteriaAsync(productFilter);
@@ -68,10 +69,25 @@ namespace APIService.Controllers
                 throw new InvalidCredentialException();
             }
         }
-        [HttpGet(Name = "GetProductsByBrand")]
-        public async Task<List<ProductItem>> GetProductsByBrandAsync([FromHeader] string userUsuario, [FromHeader] string userPassword, [FromQuery] string marca)
+
+        [HttpGet(Name = "GetProductById")]
+        public async Task<ProductItem> GetProductByIdAsync(int id, [FromHeader] string userUser, [FromHeader] string userPassword)
         {
-            var validCredentials = _securityServices.ValidateUserCredentials(userUsuario, userPassword, 1);
+            var validCredentials = _securityServices.ValidateUserCredentials(userUser, userPassword, 1);
+            if (validCredentials == true)
+            {
+                return await _productServices.GetProductByIdAsync(id);
+            }
+            else
+            {
+                throw new InvalidCredentialException();
+            }
+        }
+
+        [HttpGet(Name = "GetProductsByBrand")]
+        public async Task<List<ProductItem>> GetProductsByBrandAsync([FromHeader] string userUser, [FromHeader] string userPassword, [FromQuery] string marca)
+        {
+            var validCredentials = _securityServices.ValidateUserCredentials(userUser, userPassword, 1);
             if (validCredentials == true)
             {
                 return await _productServices.GetProductsByBrandAsync(marca);
@@ -83,9 +99,9 @@ namespace APIService.Controllers
         }
 
         [HttpPatch(Name = "UpdateProduct")]
-        public async Task PatchAsync(int id, [FromHeader] string userUsuario, [FromHeader] string userPassword, [FromBody] ProductItem productItem)
+        public async Task PatchAsync(int id, [FromHeader] string userUser, [FromHeader] string userPassword, [FromBody] ProductItem productItem)
         {
-            var validCredentials = _securityServices.ValidateUserCredentials(userUsuario, userPassword, 1);
+            var validCredentials = _securityServices.ValidateUserCredentials(userUser, userPassword, 1);
             if (validCredentials == true)
             {
                 var productToUpdate = _productServices.GetProductByIdAsync(id);
@@ -99,9 +115,9 @@ namespace APIService.Controllers
         }
 
         [HttpDelete(Name = "DeleteProduct")]
-        public async Task DeleteAsync([FromHeader] string userUsuario, [FromHeader] string userPassword, [FromQuery] int id)
+        public async Task DeleteAsync([FromHeader] string userUser, [FromHeader] string userPassword, [FromQuery] int id)
         {
-            var validCredentials = _securityServices.ValidateUserCredentials(userUsuario, userPassword, 1);
+            var validCredentials = _securityServices.ValidateUserCredentials(userUser, userPassword, 1);
             if (validCredentials == true)
             {
                await _productServices.DeleteProductAsync(id);

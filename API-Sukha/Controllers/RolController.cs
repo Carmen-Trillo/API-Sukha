@@ -26,9 +26,9 @@ namespace API_Sukha.Controllers
         }
 
         [HttpPost(Name = "InsertRol")]
-        public async Task<int> PostAsync([FromHeader] string userUsuario, [FromHeader] string userPassword, [FromBody] RolItem rolItem)
+        public async Task<int> PostAsync([FromHeader] string userUser, [FromHeader] string userPassword, [FromBody] RolItem rolItem)
         {
-            var validCredentials = _securityServices.ValidateUserCredentials(userUsuario, userPassword, 1);
+            var validCredentials = _securityServices.ValidateUserCredentials(userUser, userPassword, 1);
             if (validCredentials == true)
             {
                 return await _rolServices.InsertRolAsync(rolItem);
@@ -40,9 +40,9 @@ namespace API_Sukha.Controllers
         }
 
         [HttpGet(Name = "GetAllRoles")]
-        public async Task<List<RolItem>> GetAllRolesAsync([FromHeader] string userUsuario, [FromHeader] string userPassword)
+        public async Task<List<RolItem>> GetAllRolesAsync([FromHeader] string userUser, [FromHeader] string userPassword)
         {
-            var validCredentials = _securityServices.ValidateUserCredentials(userUsuario, userPassword, 1);
+            var validCredentials = _securityServices.ValidateUserCredentials(userUser, userPassword, 1);
             if (validCredentials == true)
             {
                 return await _rolServices.GetAllRolesAsync();
@@ -53,10 +53,24 @@ namespace API_Sukha.Controllers
             }
         }
 
-        [HttpPatch(Name = "UpdateRol")]
-        public async Task PatchAsync([FromHeader] string userUsuario, [FromHeader] string userPassword, [FromBody] RolItem rolItem)
+        [HttpGet(Name = "GetRolById")]
+        public async Task<RolItem> GetRolByIdAsync(int id, [FromHeader] string userUser, [FromHeader] string userPassword)
         {
-            var validCredentials = _securityServices.ValidateUserCredentials(userUsuario, userPassword, 1);
+            var validCredentials = _securityServices.ValidateUserCredentials(userUser, userPassword, 1);
+            if (validCredentials == true)
+            {
+                return await _rolServices.GetRolByIdAsync(id);
+            }
+            else
+            {
+                throw new InvalidCredentialException();
+            }
+        }
+
+        [HttpPatch(Name = "UpdateRol")]
+        public async Task PatchAsync([FromHeader] string userUser, [FromHeader] string userPassword, [FromBody] RolItem rolItem)
+        {
+            var validCredentials = _securityServices.ValidateUserCredentials(userUser, userPassword, 1);
             if (validCredentials == true)
             {
                 await _rolServices.UpdateRolAsync(rolItem);
@@ -68,9 +82,9 @@ namespace API_Sukha.Controllers
         }
 
         [HttpDelete(Name = "DeleteRol")]
-        public async Task DeleteAsync([FromHeader] string userUsuario, [FromHeader] string userPassword, [FromQuery] int id)
+        public async Task DeleteAsync([FromHeader] string userUser, [FromHeader] string userPassword, [FromQuery] int id)
         {
-            var validCredentials = _securityServices.ValidateUserCredentials(userUsuario, userPassword, 1);
+            var validCredentials = _securityServices.ValidateUserCredentials(userUser, userPassword, 1);
             if (validCredentials == true)
             {
                 await _rolServices.DeleteRolAsync(id);

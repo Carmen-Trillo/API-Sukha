@@ -19,7 +19,7 @@ namespace Logic.Logic
         {
             _serviceContext = serviceContext;
         }
-        public async Task<int> InsertCustomerAsync(CustomerTypeItem customerItem)
+        public async Task<int> InsertCustomerAsync(CustomerItem customerItem)
         {
             if (customerItem.IdRol == 1)
             {
@@ -31,15 +31,16 @@ namespace Logic.Logic
             return customerItem.Id;
         }
 
-        public async Task UpdateCustomerAsync(CustomerTypeItem customerItem)
+        public async Task UpdateCustomerAsync(CustomerItem customerItem)
         {
             _serviceContext.Customers.Update(customerItem);
+
             await _serviceContext.SaveChangesAsync();
         }
 
         public async Task DeleteCustomerAsync(int id)
         {
-            var customerToDelete = await _serviceContext.Set<CustomerTypeItem>()
+            var customerToDelete = await _serviceContext.Set<CustomerItem>()
                  .Where(u => u.Id == id).FirstAsync();
 
             customerToDelete.IsActive = false;
@@ -47,18 +48,18 @@ namespace Logic.Logic
             await _serviceContext.SaveChangesAsync();
         }
 
-        public async Task<List<CustomerTypeItem>> GetAllCustomersAsync()
+        public async Task<List<CustomerItem>> GetAllCustomersAsync()
         {
-            return await _serviceContext.Set<CustomerTypeItem>().ToListAsync();
+            return await _serviceContext.Set<CustomerItem>().ToListAsync();
         }
-        public async Task<CustomerTypeItem> GetCustomerByIdAsync(int id)
+        public async Task<CustomerItem> GetCustomerByIdAsync(int id)
         {
-            return await _serviceContext.Set<CustomerTypeItem>()
+            return await _serviceContext.Set<CustomerItem>()
                     .Where(u => u.Id == id).FirstAsync();
         }
-        public async Task<List<CustomerTypeItem>> GetCustomersByCriteriaAsync(CustomerFilter customerFilter)
+        public async Task<List<CustomerItem>> GetCustomersByCriteriaAsync(CustomerFilter customerFilter)
         {
-            var resultList = _serviceContext.Set<CustomerTypeItem>()
+            var resultList = _serviceContext.Set<CustomerItem>()
                                 .Where(u => u.IsActive == true);
 
             if (customerFilter.InsertDateFrom != null)

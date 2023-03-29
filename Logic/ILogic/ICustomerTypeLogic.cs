@@ -13,5 +13,6 @@ namespace Logic.ILogic
         Task UpdateCustomerTypeAsync(CustomerTypeItem customerTypeItem);
         Task DeleteCustomerTypeAsync(int id);
         Task<List<CustomerTypeItem>> GetAllCustomerTypesAsync();
+        Task<CustomerTypeItem> GetCustomerTypeByIdAsync(int id);
     }
 }

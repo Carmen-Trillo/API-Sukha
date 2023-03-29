@@ -27,9 +27,9 @@ namespace API_Sukha.Controllers
         }
 
         [HttpPost(Name = "InsertCustomerType")]
-        public async Task<int> PostAsync([FromHeader] string userUsuario, [FromHeader] string userPassword, [FromBody] CustomerTypeItem customerTypeItem)
+        public async Task<int> PostAsync([FromHeader] string userUser, [FromHeader] string userPassword, [FromBody] CustomerTypeItem customerTypeItem)
         {
-            var validCredentials = _securityServices.ValidateUserCredentials(userUsuario, userPassword, 1);
+            var validCredentials = _securityServices.ValidateUserCredentials(userUser, userPassword, 1);
             if (validCredentials == true)
             {
                 return await _customerTypeServices.InsertCustomerTypeAsync(customerTypeItem);
@@ -41,9 +41,9 @@ namespace API_Sukha.Controllers
         }
 
         [HttpGet(Name = "GetAllCustomerTypes")]
-        public async Task<List<CustomerTypeItem>> GetAllCustomerTypesAsync([FromHeader] string userUsuario, [FromHeader] string userPassword)
+        public async Task<List<CustomerTypeItem>> GetAllCustomerTypesAsync([FromHeader] string userUser, [FromHeader] string userPassword)
         {
-            var validCredentials = _securityServices.ValidateUserCredentials(userUsuario, userPassword, 1);
+            var validCredentials = _securityServices.ValidateUserCredentials(userUser, userPassword, 1);
             if (validCredentials == true)
             {
                 return await _customerTypeServices.GetAllCustomerTypesAsync();
@@ -55,19 +55,23 @@ namespace API_Sukha.Controllers
         }
 
         [HttpGet(Name = "GetCustomerTypeById")]
-        public async Task<CustomerTypeItem> GetCustomerTypeByIdAsync(int id, [FromHeader] string userUser, [FromHeader] string userPassword)
+        public async Task<CustomerTypeItem> GetCustomerTypeByIdAsync([FromHeader] string userUser, [FromHeader] string userPassword, [FromBody] int id)
         {
             var validCredentials = _securityServices.ValidateUserCredentials(userUser, userPassword, 1);
             if (validCredentials == true)
             {
                 return await _customerTypeServices.GetCustomerTypeByIdAsync(id);
             }
+            else
+            {
+                throw new InvalidCredentialException();
+            }
         }
 
         [HttpPatch(Name = "UpdateCustomerType")]
-        public async Task PatchAsync([FromHeader] string userUsuario, [FromHeader] string userPassword, [FromBody] CustomerTypeItem customerTypeItem)
+        public async Task PatchAsync([FromHeader] string userUser, [FromHeader] string userPassword, [FromBody] CustomerTypeItem customerTypeItem)
         {
-            var validCredentials = _securityServices.ValidateUserCredentials(userUsuario, userPassword, 1);
+            var validCredentials = _securityServices.ValidateUserCredentials(userUser, userPassword, 1);
             if (validCredentials == true)
             {
                 await _customerTypeServices.UpdateCustomerTypeAsync(customerTypeItem);
@@ -79,9 +83,9 @@ namespace API_Sukha.Controllers
         }
 
         [HttpDelete(Name = "DeleteCustomerType")]
-        public async Task DeleteAsync([FromHeader] string userUsuario, [FromHeader] string userPassword, [FromQuery] int id)
+        public async Task DeleteAsync([FromHeader] string userUser, [FromHeader] string userPassword, [FromQuery] int id)
         {
-            var validCredentials = _securityServices.ValidateUserCredentials(userUsuario, userPassword, 1);
+            var validCredentials = _securityServices.ValidateUserCredentials(userUser, userPassword, 1);
             if (validCredentials == true)
             {
                 await _customerTypeServices.DeleteCustomerTypeAsync(id);

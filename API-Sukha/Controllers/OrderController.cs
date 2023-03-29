@@ -1,4 +1,5 @@
 ﻿using API_Sukha.IServices;
+using API_Sukha.Services;
 using Entities.Entities;
 using Entities.SearchFilters;
 using Microsoft.AspNetCore.Mvc;
@@ -28,9 +29,9 @@ namespace API_Sukha.Controllers
         }
 
         [HttpPost(Name = "InsertOrder")]
-        public async Task<int> PostAsync([FromHeader] string userUsuario, [FromHeader] string userPassword, [FromBody] NewOrderRequest newOrderRequest)
+        public async Task<int> PostAsync([FromHeader] string userUser, [FromHeader] string userPassword, [FromBody] NewOrderRequest newOrderRequest)
         {
-            var validCredentials = _securityServices.ValidateUserCredentials(userUsuario, userPassword, 1);
+            var validCredentials = _securityServices.ValidateUserCredentials(userUser, userPassword, 1);
             if (validCredentials == true)
             {
                 return await _orderServices.InsertOrderAsync(newOrderRequest);
@@ -42,9 +43,9 @@ namespace API_Sukha.Controllers
         }
 
         [HttpGet(Name = "GetAllOrders")]
-        public async Task<List<OrderItem>> GetAllOrdersAsync([FromHeader] string userUsuario, [FromHeader] string userPassword)
+        public async Task<List<OrderItem>> GetAllOrdersAsync([FromHeader] string userUser, [FromHeader] string userPassword)
         {
-            var validCredentials = _securityServices.ValidateUserCredentials(userUsuario, userPassword, 1);
+            var validCredentials = _securityServices.ValidateUserCredentials(userUser, userPassword, 1);
             if (validCredentials == true)
             {
                 return await _orderServices.GetAllOrdersAsync();
@@ -56,9 +57,9 @@ namespace API_Sukha.Controllers
         }
 
         [HttpGet(Name = "GetOrdersByCriteria")]
-        public async Task<List<OrderItem>> GetOrdersByCriteriaAsync([FromHeader] string userUsuario, [FromHeader] string userPassword, [FromQuery] OrderFilter orderFilter)
+        public async Task<List<OrderItem>> GetOrdersByCriteriaAsync([FromHeader] string userUser, [FromHeader] string userPassword, [FromQuery] OrderFilter orderFilter)
         {
-            var validCredentials = _securityServices.ValidateUserCredentials(userUsuario, userPassword, 1);
+            var validCredentials = _securityServices.ValidateUserCredentials(userUser, userPassword, 1);
             if (validCredentials == true)
             {
                 return await _orderServices.GetOrdersByCriteriaAsync(orderFilter);
@@ -70,9 +71,9 @@ namespace API_Sukha.Controllers
         }
 
         [HttpGet(Name = "GetOrdersByCustomer")]
-        public async Task<List<OrderItem>> GetOrdersByClienteAsync([FromHeader] string userUsuario, [FromHeader] string userPassword, [FromQuery] int idCustomer)
+        public async Task<List<OrderItem>> GetOrdersByClienteAsync([FromHeader] string userUser, [FromHeader] string userPassword, [FromQuery] int idCustomer)
         {
-            var validCredentials = _securityServices.ValidateUserCredentials(userUsuario, userPassword, 1);
+            var validCredentials = _securityServices.ValidateUserCredentials(userUser, userPassword, 1);
             if (validCredentials == true)
             {
                 return await _orderServices.GetOrdersByCustomerAsync(idCustomer);
@@ -84,9 +85,9 @@ namespace API_Sukha.Controllers
         }
 
         [HttpGet(Name = "GetOrdersByProduct")]
-        public async Task<List<OrderItem>> GetOrdersByProductoAsync([FromHeader] string userUsuario, [FromHeader] string userPassword, [FromQuery] int idProduct)
+        public async Task<List<OrderItem>> GetOrdersByProductoAsync([FromHeader] string userUser, [FromHeader] string userPassword, [FromQuery] int idProduct)
         {
-            var validCredentials = _securityServices.ValidateUserCredentials(userUsuario, userPassword, 1);
+            var validCredentials = _securityServices.ValidateUserCredentials(userUser, userPassword, 1);
             if (validCredentials == true)
             {
                 return await _orderServices.GetOrdersByProductAsync(idProduct);
@@ -98,9 +99,9 @@ namespace API_Sukha.Controllers
         }
 
         [HttpGet(Name = "GetOrdersByPaid")]
-        public async Task<List<OrderItem>> GetOrdersByPagadosAsync([FromHeader] string userUsuario, [FromHeader] string userPassword, [FromQuery] bool pagado)
+        public async Task<List<OrderItem>> GetOrdersByPagadosAsync([FromHeader] string userUser, [FromHeader] string userPassword, [FromQuery] bool pagado)
         {
-            var validCredentials = _securityServices.ValidateUserCredentials(userUsuario, userPassword, 1);
+            var validCredentials = _securityServices.ValidateUserCredentials(userUser, userPassword, 1);
             if (validCredentials == true)
             {
                 return await _orderServices.GetOrdersByPaidAsync(pagado);
@@ -112,9 +113,9 @@ namespace API_Sukha.Controllers
         }
 
         [HttpGet(Name = "GetOrdersByDelivered")]
-        public async Task<List<OrderItem>> GetOrdersByEntregadosAsync([FromHeader] string userUsuario, [FromHeader] string userPassword, [FromQuery] bool entregado)
+        public async Task<List<OrderItem>> GetOrdersByEntregadosAsync([FromHeader] string userUser, [FromHeader] string userPassword, [FromQuery] bool entregado)
         {
-            var validCredentials = _securityServices.ValidateUserCredentials(userUsuario, userPassword, 1);
+            var validCredentials = _securityServices.ValidateUserCredentials(userUser, userPassword, 1);
             if (validCredentials == true)
             {
                 return await _orderServices.GetOrdersByDeliveredAsync(entregado);
@@ -125,10 +126,24 @@ namespace API_Sukha.Controllers
             }
         }
 
-        [HttpPatch(Name = "UpdateOrder")]
-        public async Task PatchAsync([FromHeader] string userUsuario, [FromHeader] string userPassword, [FromBody] OrderItem orderItem)
+        [HttpGet(Name = "GetOrderById")]
+        public async Task<OrderItem> GetOrderByIdAsync(int id, [FromHeader] string userUser, [FromHeader] string userPassword)
         {
-            var validCredentials = _securityServices.ValidateUserCredentials(userUsuario, userPassword, 1);
+            var validCredentials = _securityServices.ValidateUserCredentials(userUser, userPassword, 1);
+            if (validCredentials == true)
+            {
+                return await _orderServices.GetOrderByIdAsync(id);
+            }
+            else
+            {
+                throw new InvalidCredentialException();
+            }
+        }
+
+        [HttpPatch(Name = "UpdateOrder")]
+        public async Task PatchAsync([FromHeader] string userUser, [FromHeader] string userPassword, [FromBody] OrderItem orderItem)
+        {
+            var validCredentials = _securityServices.ValidateUserCredentials(userUser, userPassword, 1);
             if (validCredentials == true)
             {
                 await _orderServices.UpdateOrderAsync(orderItem);
@@ -140,9 +155,9 @@ namespace API_Sukha.Controllers
         }
 
         [HttpDelete(Name = "DeleteOrder")]
-        public async Task DeleteAsync([FromHeader] string userUsuario, [FromHeader] string userPassword, [FromQuery] int id)
+        public async Task DeleteAsync([FromHeader] string userUser, [FromHeader] string userPassword, [FromQuery] int id)
         {
-            var validCredentials = _securityServices.ValidateUserCredentials(userUsuario, userPassword, 1);
+            var validCredentials = _securityServices.ValidateUserCredentials(userUser, userPassword, 1);
             if (validCredentials == true)
             {
                 await _orderServices.DeleteOrderAsync(id);

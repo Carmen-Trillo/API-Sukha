@@ -93,11 +93,8 @@ namespace Logic.Logic
             return resultList;
         }
 
-        public async Task<ProductItem> GetProductByIdAsync(int id)
-        {
-            return await _serviceContext.Set<ProductItem>()
-                    .Where(u => u.Id == id).FirstAsync();
-        }
+        
+
 
         public async Task<List<ProductItem>> GetProductsByCategoryAsync(string category)
         {

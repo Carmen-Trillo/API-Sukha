@@ -27,6 +27,11 @@ public class ProductServices : IProductServices
         return await _productLogic.GetProductsByCriteriaAsync(productFilter);
     }
 
+    public async Task<ProductItem> GetProductByIdAsync(int id)
+    {
+        return await _productLogic.GetProductByIdAsync(id);
+    }
+
     public async Task<List<ProductItem>> GetProductsByBrandAsync(string marca)
     {
         return await _productLogic.GetProductsByBrandAsync(marca);
@@ -42,9 +47,5 @@ public class ProductServices : IProductServices
         await _productLogic.DeleteProductAsync(id);
     }
 
-    public async Task<ProductItem> GetProductByIdAsync(int id)
-    {
-        return await _productLogic.GetProductByIdAsync(id);
-    }
 }
 

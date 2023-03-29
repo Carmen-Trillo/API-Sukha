@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using API_Sukha.IServices;
 using System.Security.Authentication;
+using API_Sukha.Services;
 
 namespace API_Sukha.Controllers
 {
@@ -26,9 +27,9 @@ namespace API_Sukha.Controllers
         }
 
         [HttpPost(Name = "InsertPerson")]
-        public async Task<int> PostAsync([FromHeader] string userUsuario, [FromHeader] string userPassword, [FromBody] PersonItem personItem)
+        public async Task<int> PostAsync([FromHeader] string userUser, [FromHeader] string userPassword, [FromBody] PersonItem personItem)
         {
-            var validCredentials = _securityServices.ValidateUserCredentials(userUsuario, userPassword, 1);
+            var validCredentials = _securityServices.ValidateUserCredentials(userUser, userPassword, 1);
             if (validCredentials == true)
             {
                 return await _personServices.InsertPersonAsync(personItem);
@@ -40,9 +41,9 @@ namespace API_Sukha.Controllers
         }
 
         [HttpGet(Name = "GetAllPersons")]
-        public async Task<List<PersonItem>> GetAllPersonsAsync([FromHeader] string userUsuario, [FromHeader] string userPassword)
+        public async Task<List<PersonItem>> GetAllPersonsAsync([FromHeader] string userUser, [FromHeader] string userPassword)
         {
-            var validCredentials = _securityServices.ValidateUserCredentials(userUsuario, userPassword, 1);
+            var validCredentials = _securityServices.ValidateUserCredentials(userUser, userPassword, 1);
             if (validCredentials == true)
             {
                 return await _personServices.GetAllPersonsAsync();
@@ -53,10 +54,24 @@ namespace API_Sukha.Controllers
             }
         }
 
-        [HttpPatch(Name = "UpdatePerson")]
-        public async Task PatchAsync([FromHeader] string userUsuario, [FromHeader] string userPassword, [FromBody] PersonItem personItem)
+        [HttpGet(Name = "GetPersonById")]
+        public async Task<PersonItem> GetPersonByIdAsync(int id, [FromHeader] string userUser, [FromHeader] string userPassword)
         {
-            var validCredentials = _securityServices.ValidateUserCredentials(userUsuario, userPassword, 1);
+            var validCredentials = _securityServices.ValidateUserCredentials(userUser, userPassword, 1);
+            if (validCredentials == true)
+            {
+                return await _personServices.GetPersonByIdAsync(id);
+            }
+            else
+            {
+                throw new InvalidCredentialException();
+            }
+        }
+
+        [HttpPatch(Name = "UpdatePerson")]
+        public async Task PatchAsync([FromHeader] string userUser, [FromHeader] string userPassword, [FromBody] PersonItem personItem)
+        {
+            var validCredentials = _securityServices.ValidateUserCredentials(userUser, userPassword, 1);
             if (validCredentials == true)
             {
                 await _personServices.UpdatePersonAsync(personItem);
@@ -68,9 +83,9 @@ namespace API_Sukha.Controllers
         }
 
         [HttpDelete(Name = "DeletePerson")]
-        public async Task DeleteAsync([FromHeader] string userUsuario, [FromHeader] string userPassword, [FromQuery] int id)
+        public async Task DeleteAsync([FromHeader] string userUser, [FromHeader] string userPassword, [FromQuery] int id)
         {
-            var validCredentials = _securityServices.ValidateUserCredentials(userUsuario, userPassword, 1);
+            var validCredentials = _securityServices.ValidateUserCredentials(userUser, userPassword, 1);
             if (validCredentials == true)
             {
                 await _personServices.DeletePersonAsync(id);
@@ -82,9 +97,9 @@ namespace API_Sukha.Controllers
         }
 
         /*[HttpGet(Name = "MostrarPersonaPorFiltro")]
-        public List<PersonaItem> GetByCriteria([FromHeader] string usuarioUsuario, [FromHeader] string usuarioPassword, [FromQuery] PersonaFilter personaFilter)
+        public List<PersonaItem> GetByCriteria([FromHeader] string usuarioUser, [FromHeader] string usuarioPassword, [FromQuery] PersonaFilter personaFilter)
         {
-            var validCredentials = _securityServices.ValidateUsuarioCredentials(usuarioUsuario, usuarioPassword, 1);
+            var validCredentials = _securityServices.ValidateUsuarioCredentials(usuarioUser, usuarioPassword, 1);
             if (validCredentials == true)
             {
                 return _personaServices.GetPersonasByCriteria(personaFilter);

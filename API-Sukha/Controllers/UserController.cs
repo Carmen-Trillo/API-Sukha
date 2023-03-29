@@ -27,10 +27,10 @@ namespace API_Sukha.Controllers
             _userServices = userServices;
         }
 
-        [HttpPost(Name = "InsertarUsuarios")]
-        public async Task<int> PostAsync([FromHeader] string userUsuario, [FromHeader] string userPassword, [FromBody] NewUserRequest newUserRequest)
+        [HttpPost(Name = "InsertUser")]
+        public async Task<int> PostAsync([FromHeader] string userUser, [FromHeader] string userPassword, [FromBody] NewUserRequest newUserRequest)
         {
-            var validCredentials = _securityServices.ValidateUserCredentials(userUsuario, userPassword, 1);
+            var validCredentials = _securityServices.ValidateUserCredentials(userUser, userPassword, 1);
             if (validCredentials == true)
             {
                 return await _userServices.InsertUserAsync(newUserRequest);
@@ -41,10 +41,10 @@ namespace API_Sukha.Controllers
             }
         }
 
-        [HttpGet(Name = "VerUsuarios")]
-        public async Task<List<UserItem>> GetAllUsersAsync([FromHeader] string userUsuario, [FromHeader] string userPassword)
+        [HttpGet(Name = "GetAllUsers")]
+        public async Task<List<UserItem>> GetAllUsersAsync([FromHeader] string userUser, [FromHeader] string userPassword)
         {
-            var validCredentials = _securityServices.ValidateUserCredentials(userUsuario, userPassword, 1);
+            var validCredentials = _securityServices.ValidateUserCredentials(userUser, userPassword, 1);
             if (validCredentials == true)
             {
                 return await _userServices.GetAllUsersAsync();
@@ -55,10 +55,24 @@ namespace API_Sukha.Controllers
             }
         }
 
-        [HttpGet(Name = "MostrarUsuarioPorFiltro")]
-        public async Task<List<UserItem>> GetUsersByCriteriaAsync([FromHeader] string userUsuario, [FromHeader] string userPassword, [FromQuery] UserFilter userFilter)
+        [HttpGet(Name = "GetUserById")]
+        public async Task<UserItem> GetUserByIdAsync(int id, [FromHeader] string userUser, [FromHeader] string userPassword)
         {
-            var validCredentials = _securityServices.ValidateUserCredentials(userUsuario, userPassword, 1);
+            var validCredentials = _securityServices.ValidateUserCredentials(userUser, userPassword, 1);
+            if (validCredentials == true)
+            {
+                return await _userServices.GetUserByIdAsync(id);
+            }
+            else
+            {
+                throw new InvalidCredentialException();
+            }
+        }
+
+        [HttpGet(Name = "GetUsersByCriteria")]
+        public async Task<List<UserItem>> GetUsersByCriteriaAsync([FromHeader] string userUser, [FromHeader] string userPassword, [FromQuery] UserFilter userFilter)
+        {
+            var validCredentials = _securityServices.ValidateUserCredentials(userUser, userPassword, 1);
             if (validCredentials == true)
             {
                 return await _userServices.GetUsersByCriteriaAsync(userFilter);
@@ -69,10 +83,10 @@ namespace API_Sukha.Controllers
             }
         }
 
-        [HttpPatch(Name = "ModificarUsuario")]
-        public async Task PatchAsync([FromHeader] string userUsuario, [FromHeader] string userPassword, [FromBody] UserItem userItem)
+        [HttpPatch(Name = "UpdateUser")]
+        public async Task PatchAsync([FromHeader] string userUser, [FromHeader] string userPassword, [FromBody] UserItem userItem)
         {
-            var validCredentials = _securityServices.ValidateUserCredentials(userUsuario, userPassword, 1);
+            var validCredentials = _securityServices.ValidateUserCredentials(userUser, userPassword, 1);
             if (validCredentials == true)
             {
                 await _userServices.UpdateUserAsync(userItem);
@@ -84,10 +98,10 @@ namespace API_Sukha.Controllers
         }
 
 
-        [HttpDelete(Name = "EliminarUsuario")]
-        public async Task DeleteAsync([FromHeader] string userUsuario, [FromHeader] string userPassword, [FromQuery] int id)
+        [HttpDelete(Name = "DeleteUser")]
+        public async Task DeleteAsync([FromHeader] string userUser, [FromHeader] string userPassword, [FromQuery] int id)
         {
-            var validCredentials = _securityServices.ValidateUserCredentials(userUsuario, userPassword, 1);
+            var validCredentials = _securityServices.ValidateUserCredentials(userUser, userPassword, 1);
             if (validCredentials == true)
             {
                 await _userServices.DeleteUserAsync(id);
