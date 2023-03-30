@@ -3,97 +3,62 @@ using Microsoft.AspNetCore.Mvc;
 using API_Sukha.IServices;
 using System.Security.Authentication;
 using API_Sukha.Services;
+using Microsoft.AspNetCore.Cors;
+using System.Web.Http.Cors;
+using EnableCorsAttribute = System.Web.Http.Cors.EnableCorsAttribute;
 
 namespace API_Sukha.Controllers
 {
-    [ApiController]
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     [Route("[controller]/[action]")]
     public class CustomerTypeController : ControllerBase
     {
-        /*private readonly ILogger<CustomerTypeController> _logger;
+        private readonly ILogger<CustomerTypeController> _logger;
         private readonly ICustomerTypeServices _customerTypeServices;
         public CustomerTypeController(ILogger<CustomerTypeController> logger, ICustomerTypeServices customerTypeServices)
         {
             _logger = logger;
             _customerTypeServices = customerTypeServices;
-        }*/
-
-        private ISecurityServices _securityServices;
-        private ICustomerTypeServices _customerTypeServices;
-        public CustomerTypeController(ISecurityServices securityServices, ICustomerTypeServices customerTypeServices)
-        {
-            _securityServices = securityServices;
-            _customerTypeServices = customerTypeServices;
         }
 
+
         [HttpPost(Name = "InsertCustomerType")]
-        public async Task<int> PostAsync([FromHeader] string userUser, [FromHeader] string userPassword, [FromBody] CustomerTypeItem customerTypeItem)
+        public async Task<int> PostAsync([FromBody] CustomerTypeItem customerTypeItem)
         {
-            var validCredentials = _securityServices.ValidateUserCredentials(userUser, userPassword, 1);
-            if (validCredentials == true)
-            {
                 return await _customerTypeServices.InsertCustomerTypeAsync(customerTypeItem);
-            }
-            else
-            {
-                throw new InvalidCredentialException();
-            }
+
         }
 
         [HttpGet(Name = "GetAllCustomerTypes")]
-        public async Task<List<CustomerTypeItem>> GetAllCustomerTypesAsync([FromHeader] string userUser, [FromHeader] string userPassword)
+        public async Task<List<CustomerTypeItem>> GetAllCustomerTypesAsync()
         {
-            var validCredentials = _securityServices.ValidateUserCredentials(userUser, userPassword, 1);
-            if (validCredentials == true)
-            {
+           
                 return await _customerTypeServices.GetAllCustomerTypesAsync();
-            }
-            else
-            {
-                throw new InvalidCredentialException();
-            }
+            
         }
 
         [HttpGet(Name = "GetCustomerTypeById")]
-        public async Task<CustomerTypeItem> GetCustomerTypeByIdAsync([FromHeader] string userUser, [FromHeader] string userPassword, [FromBody] int id)
+        public async Task<CustomerTypeItem> GetCustomerTypeByIdAsync([FromBody] int id)
         {
-            var validCredentials = _securityServices.ValidateUserCredentials(userUser, userPassword, 1);
-            if (validCredentials == true)
-            {
+            
                 return await _customerTypeServices.GetCustomerTypeByIdAsync(id);
-            }
-            else
-            {
-                throw new InvalidCredentialException();
-            }
+            
         }
 
         [HttpPatch(Name = "UpdateCustomerType")]
-        public async Task PatchAsync([FromHeader] string userUser, [FromHeader] string userPassword, [FromBody] CustomerTypeItem customerTypeItem)
+        public async Task PatchAsync([FromBody] CustomerTypeItem customerTypeItem)
         {
-            var validCredentials = _securityServices.ValidateUserCredentials(userUser, userPassword, 1);
-            if (validCredentials == true)
-            {
+            
                 await _customerTypeServices.UpdateCustomerTypeAsync(customerTypeItem);
-            }
-            else
-            {
-                throw new InvalidCredentialException();
-            }
+            
         }
 
         [HttpDelete(Name = "DeleteCustomerType")]
-        public async Task DeleteAsync([FromHeader] string userUser, [FromHeader] string userPassword, [FromQuery] int id)
+        public async Task DeleteAsync([FromQuery] int id)
         {
-            var validCredentials = _securityServices.ValidateUserCredentials(userUser, userPassword, 1);
-            if (validCredentials == true)
-            {
+           
                 await _customerTypeServices.DeleteCustomerTypeAsync(id);
-            }
-            else
-            {
-                throw new InvalidCredentialException();
-            }
+            
         }
     }
 }

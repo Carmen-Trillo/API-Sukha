@@ -4,112 +4,111 @@ using API_Sukha.IServices;
 using System.Security.Authentication;
 using Entities.SearchFilters;
 using Resource.RequestModels;
+using Microsoft.AspNetCore.Cors;
+using System.Web.Http.Cors;
+using EnableCorsAttribute = System.Web.Http.Cors.EnableCorsAttribute;
+using Microsoft.AspNetCore.Identity;
+using System.Data;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
+using IdentityServer3.Core.ViewModels;
 
 namespace API_Sukha.Controllers
 {
-    [ApiController]
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     [Route("[controller]/[action]")]
     public class UserController : ControllerBase
     {
-        /*private readonly ILogger<RolController> _logger;
+        private readonly ILogger<RolController> _logger;
         private readonly IUserServices _userServices;
         public UserController(ILogger<RolController> logger, IUserServices userServices)
         {
             _logger = logger;
             _userServices = userServices;
-        }*/
-
-        private ISecurityServices _securityServices;
-        private IUserServices _userServices;
-        public UserController(ISecurityServices securityServices, IUserServices userServices)
-        {
-            _securityServices = securityServices;
-            _userServices = userServices;
         }
 
+
         [HttpPost(Name = "InsertUser")]
-        public async Task<int> PostAsync([FromHeader] string userUser, [FromHeader] string userPassword, [FromBody] NewUserRequest newUserRequest)
+        public async Task<int> PostAsync([FromBody] NewUserRequest newUserRequest)
         {
-            var validCredentials = _securityServices.ValidateUserCredentials(userUser, userPassword, 1);
-            if (validCredentials == true)
-            {
+
                 return await _userServices.InsertUserAsync(newUserRequest);
-            }
-            else
-            {
-                throw new InvalidCredentialException();
-            }
+            
         }
 
         [HttpGet(Name = "GetAllUsers")]
-        public async Task<List<UserItem>> GetAllUsersAsync([FromHeader] string userUser, [FromHeader] string userPassword)
+        public async Task<List<UserItem>> GetAllUsersAsync()
         {
-            var validCredentials = _securityServices.ValidateUserCredentials(userUser, userPassword, 1);
-            if (validCredentials == true)
-            {
+            
                 return await _userServices.GetAllUsersAsync();
-            }
-            else
-            {
-                throw new InvalidCredentialException();
-            }
+            
         }
 
         [HttpGet(Name = "GetUserById")]
-        public async Task<UserItem> GetUserByIdAsync(int id, [FromHeader] string userUser, [FromHeader] string userPassword)
+        public async Task<UserItem> GetUserByIdAsync(int id)
         {
-            var validCredentials = _securityServices.ValidateUserCredentials(userUser, userPassword, 1);
-            if (validCredentials == true)
-            {
+            
                 return await _userServices.GetUserByIdAsync(id);
-            }
-            else
-            {
-                throw new InvalidCredentialException();
-            }
+            
         }
 
         [HttpGet(Name = "GetUsersByCriteria")]
-        public async Task<List<UserItem>> GetUsersByCriteriaAsync([FromHeader] string userUser, [FromHeader] string userPassword, [FromQuery] UserFilter userFilter)
+        public async Task<List<UserItem>> GetUsersByCriteriaAsync([FromQuery] UserFilter userFilter)
         {
-            var validCredentials = _securityServices.ValidateUserCredentials(userUser, userPassword, 1);
-            if (validCredentials == true)
-            {
+           
                 return await _userServices.GetUsersByCriteriaAsync(userFilter);
-            }
-            else
-            {
-                throw new InvalidCredentialException();
-            }
+            
         }
 
         [HttpPatch(Name = "UpdateUser")]
-        public async Task PatchAsync([FromHeader] string userUser, [FromHeader] string userPassword, [FromBody] UserItem userItem)
+        public async Task PatchAsync([FromBody] UserItem userItem)
         {
-            var validCredentials = _securityServices.ValidateUserCredentials(userUser, userPassword, 1);
-            if (validCredentials == true)
-            {
+            
                 await _userServices.UpdateUserAsync(userItem);
-            }
-            else
-            {
-                throw new InvalidCredentialException();
-            }
+            
         }
 
 
         [HttpDelete(Name = "DeleteUser")]
-        public async Task DeleteAsync([FromHeader] string userUser, [FromHeader] string userPassword, [FromQuery] int id)
+        public async Task DeleteAsync([FromQuery] int id)
         {
-            var validCredentials = _securityServices.ValidateUserCredentials(userUser, userPassword, 1);
-            if (validCredentials == true)
-            {
+            
                 await _userServices.DeleteUserAsync(id);
-            }
-            else
-            {
-                throw new InvalidCredentialException();
-            }
+            
         }
+        [HttpPost("login")]
+        public async Task<ActionResult> Login([FromBody] LoginViewModel model)
+        {
+            var user = await _userManager.FindByNameAsync(model.Username);
+            if (user == null || !await _userManager.CheckPasswordAsync(user, model.Password))
+            {
+                return Unauthorized();
+            }
+
+            var claims = new List<Claim>
+    {
+        new Claim(ClaimTypes.Name, user.UserName),
+        new Claim(ClaimTypes.Role, user.RoleId.ToString()) // Agregar el idRol del usuario como una claim
+    };
+
+            var token = _tokenService.GenerateToken(claims); // Generar un token de sesión utilizando algún servicio de tokens
+
+            return Ok(new { token, role = user.RoleId });
+        }
+
+        [Authorize(Roles = "1")] // Solo los usuarios con idRol = 1 pueden acceder a este endpoint
+        [HttpGet("admin")]
+        public ActionResult Admin()
+        {
+            return Ok("Bienvenido, administrador!");
+        }
+
+        [Authorize(Roles = "2")] // Solo los usuarios con idRol = 2 pueden acceder a este endpoint
+        [HttpGet("profile")]
+        public ActionResult Profile()
+        {
+            return Ok("Bienvenido a tu perfil de usuario!");
+        }
+
     }
 }
