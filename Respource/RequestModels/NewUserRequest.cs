@@ -9,6 +9,7 @@ namespace Resource.RequestModels
 {
     public class NewUserRequest
     {
+        public int IdUser { get; set; }
         public int IdPerson { get; set; }
         public int IdRol { get; set; }
         public string User { get; set; }

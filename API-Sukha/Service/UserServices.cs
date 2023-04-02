@@ -14,10 +14,10 @@ namespace API_Sukha.Services
         {
             _userLogic = userLogic;
         }
-        public async Task<int> InsertUserAsync(NewUserRequest newUserRequest)
+        public async Task<int> InsertUserAsync(UserItem userItem)
         {
-            var newUserItem = newUserRequest.ToUserItem();
-            return await _userLogic.InsertUserAsync(newUserItem);
+            //var newUserItem = newUserRequest.ToUserItem();
+            return await _userLogic.InsertUserAsync(userItem);
         }
         public async Task<List<UserItem>> GetAllUsersAsync()
         {

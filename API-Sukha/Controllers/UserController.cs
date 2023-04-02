@@ -12,6 +12,8 @@ using System.Data;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using IdentityServer3.Core.ViewModels;
+using IdentityServer3.Core.Services;
+using Microsoft.IdentityModel.Protocols.WSIdentity;
 
 namespace API_Sukha.Controllers
 {
@@ -21,18 +23,22 @@ namespace API_Sukha.Controllers
     {
         private readonly ILogger<RolController> _logger;
         private readonly IUserServices _userServices;
+        /*private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ITokenService _tokenService;*/
         public UserController(ILogger<RolController> logger, IUserServices userServices)
         {
             _logger = logger;
             _userServices = userServices;
+            //_userManager = UserManager;
+            //_tokenService = TokenService;
         }
 
 
         [HttpPost(Name = "InsertUser")]
-        public async Task<int> PostAsync([FromBody] NewUserRequest newUserRequest)
+        public async Task<int> PostAsync([FromBody] UserItem userItem)
         {
 
-                return await _userServices.InsertUserAsync(newUserRequest);
+                return await _userServices.InsertUserAsync(userItem);
             
         }
 
@@ -76,7 +82,7 @@ namespace API_Sukha.Controllers
                 await _userServices.DeleteUserAsync(id);
             
         }
-        [HttpPost("login")]
+        /*[HttpPost("login")]
         public async Task<ActionResult> Login([FromBody] LoginViewModel model)
         {
             var user = await _userManager.FindByNameAsync(model.Username);
@@ -89,7 +95,7 @@ namespace API_Sukha.Controllers
     {
         new Claim(ClaimTypes.Name, user.UserName),
         new Claim(ClaimTypes.Role, user.RoleId.ToString()) // Agregar el idRol del usuario como una claim
-    };
+            };
 
             var token = _tokenService.GenerateToken(claims); // Generar un token de sesión utilizando algún servicio de tokens
 
@@ -108,7 +114,7 @@ namespace API_Sukha.Controllers
         public ActionResult Profile()
         {
             return Ok("Bienvenido a tu perfil de usuario!");
-        }
+        }*/
 
     }
 }

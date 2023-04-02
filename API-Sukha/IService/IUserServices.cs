@@ -6,7 +6,7 @@ namespace API_Sukha.IServices
 {
     public interface IUserServices
     {
-        Task<int> InsertUserAsync(NewUserRequest newUserRequest);
+        Task<int> InsertUserAsync(UserItem userItem);
         Task UpdateUserAsync(UserItem userItem);
         Task DeleteUserAsync(int id);
         Task<List<UserItem>> GetAllUsersAsync();

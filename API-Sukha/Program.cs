@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using API_Sukha.IServices;
 using API_Sukha.Services;
 using Microsoft.EntityFrameworkCore.SqlServer;
-
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,8 +35,9 @@ builder.Services.AddScoped<ICustomerLogic, CustomerLogic>();
 builder.Services.AddScoped<ICustomerTypeLogic, CustomerTypeLogic>();
 
 builder.Services.AddDbContext<ServiceContext>(
-        options => options.UseSqlServer("name=ConnectionStrings:ServiceContext",
-        b => b.MigrationsAssembly("API-Sukha")));
+        options => options.UseSqlServer("name=ConnectionStrings:ServiceContext"));
+
+
 
 builder.Services.AddCors(options =>
 {
